@@ -13,7 +13,15 @@ export default StyleSheet.create({
   p30: {
     paddingBottom: 30,
   },
-  pH14: {
-    paddingHorizontal: 14,
+  pH10: {
+    paddingHorizontal: 10,
   },
+  HeaderText : {
+    color: colors.ButtonColor,
+    fontSize: 20,
+    alignSelf: 'center',
+    letterSpacing: 0.4,
+    fontFamily: 'Montserrat-Medium',
+    marginTop : 20
+  }
 });

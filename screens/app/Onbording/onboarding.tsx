@@ -8,6 +8,7 @@ import images from '../../assests/images';
 import i18n from '../../utilies/i18n';
 import NavigationService from '../../navigations/navigationService';
 import {ScreenName} from '../../navigations/screenName';
+import {ScrollView} from 'react-native-gesture-handler';
 
 type Props = {};
 
@@ -81,79 +82,83 @@ const Onboarding = (props: Props) => {
 
   return (
     <View style={[commanStyles.Container, {backgroundColor: colors.Orange}]}>
-      <View style={{flex: 0.7}}>
-        <CommonLogo />
-        <View style={commanStyles.M10}>
-          <CommonSwadhaText color={undefined} />
+      <ScrollView>
+        <View style={{flex: 0.7}}>
+          <CommonLogo />
+          <View style={commanStyles.M10}>
+            <CommonSwadhaText color={undefined} />
+          </View>
         </View>
-      </View>
-      <View style={{flex: 1, justifyContent: 'space-between'}}>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Image
-            source={images.OnbordingHalf1}
+        <View style={{flex: 1, justifyContent: 'space-between'}}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Image
+              source={images.OnbordingHalf1}
+              style={{
+                height: 130,
+                width: 220,
+              }}
+            />
+            <Image
+              source={images.OnbordingRound}
+              resizeMode="contain"
+              style={{height: 130, right: 30}}
+            />
+          </View>
+          <View
             style={{
-              height: 130,
-              width: 220,
-            }}
-          />
-          <Image
-            source={images.OnbordingRound}
-            resizeMode="contain"
-            style={{height: 130, right: 30}}
-          />
+              flexDirection: 'row-reverse',
+              alignItems: 'center',
+              marginTop: 20,
+            }}>
+            <Image
+              source={images.OnbordingHalf2}
+              style={{
+                height: 130,
+                width: 220,
+              }}
+            />
+            <Image
+              source={images.OnbordingRound}
+              resizeMode="contain"
+              style={{height: 130, right: 30}}
+            />
+          </View>
         </View>
-        <View
-          style={{
-            flexDirection: 'row-reverse',
-            alignItems: 'center',
-            marginTop: 20,
-          }}>
+        <View style={[styles.boxes]}>
+          <Text style={styles.onBordingText}>{onBordingText}</Text>
           <Image
-            source={images.OnbordingHalf2}
+            source={images.Troffy}
+            resizeMode="contain"
+            style={styles.TroffyImage}
+          />
+          <View
             style={{
-              height: 130,
-              width: 220,
-            }}
-          />
-          <Image
-            source={images.OnbordingRound}
-            resizeMode="contain"
-            style={{height: 130, right: 30}}
-          />
-        </View>
-      </View>
-      <View style={[styles.boxes]}>
-        <Text style={styles.onBordingText}>{onBordingText}</Text>
-        <Image
-          source={images.Troffy}
-          resizeMode="contain"
-          style={styles.TroffyImage}
-        />
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent:
-              onBordingTage.onBordingTage1 ||
+              flexDirection: 'row',
+              justifyContent:
+                onBordingTage.onBordingTage1 ||
+                onBordingTage.onBordingTage2 ||
+                onBordingTage.onBordingTage3
+                  ? 'space-between'
+                  : 'center',
+              marginHorizontal: 20,
+            }}>
+            {(onBordingTage.onBordingTage1 ||
               onBordingTage.onBordingTage2 ||
-              onBordingTage.onBordingTage3
-                ? 'space-between'
-                : 'center',
-            marginHorizontal: 20,
-          }}>
-          {(onBordingTage.onBordingTage1 ||
-            onBordingTage.onBordingTage2 ||
-            onBordingTage.onBordingTage3) && (
-            <Text style={styles.OnNext} onPress={() => onNextAndPrevPress('')}>
-              {i18n.Preview}
+              onBordingTage.onBordingTage3) && (
+              <Text
+                style={styles.OnNext}
+                onPress={() => onNextAndPrevPress('')}>
+                {i18n.Preview}
+              </Text>
+            )}
+            <Text
+              style={styles.OnNext}
+              onPress={() => onNextAndPrevPress('isNext')}>
+              {i18n.Next}
             </Text>
-          )}
-          <Text
-            style={styles.OnNext}
-            onPress={() => onNextAndPrevPress('isNext')}>
-            {i18n.Next}
-          </Text>
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </View>
   );
 };

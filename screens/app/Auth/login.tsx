@@ -17,6 +17,8 @@ import CommonTextInput from '../../components/commonTextInput';
 import {HEIGHT} from '../../utilies/constant';
 import CommonButton from '../../components/commonButton';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
+import navigationService from '../../navigations/navigationService';
+import { ScreenName } from '../../navigations/screenName';
 
 type Props = {};
 
@@ -24,8 +26,17 @@ const Login = (props: Props) => {
   //STATE
   const [isOtpRecived, setIsOtpRecived] = useState(Boolean);
 
+  //onButtonPress
+  const onButtonPress = () => {
+    if (!isOtpRecived) {
+      setIsOtpRecived(true);
+    } else {
+      navigationService.navigate(ScreenName.DashBoard, '');
+    }
+  };
+
   return (
-    <SafeAreaView style={[commanStyles.Container, commanStyles.pH14]}>
+    <SafeAreaView style={[commanStyles.Container, commanStyles.pH10]}>
       <ScrollView
         style={{flex: 1}}
         showsVerticalScrollIndicator={false}
@@ -69,7 +80,7 @@ const Login = (props: Props) => {
           <View style={{marginTop: 50}}>
             <CommonButton
               onPress={() => {
-                setIsOtpRecived(!isOtpRecived);
+                onButtonPress();
               }}
               title={isOtpRecived ? i18n.Conform : i18n.SendOtp}
               BUttonStyle={''}
@@ -79,7 +90,7 @@ const Login = (props: Props) => {
         </View>
       </ScrollView>
 
-      <CommonFooterLogo />
+      <CommonFooterLogo imageStyle={''}/>
     </SafeAreaView>
   );
 };
@@ -103,9 +114,9 @@ const style = StyleSheet.create({
     margin: 10,
     borderWidth: 1,
     borderColor: colors.ButtonColor,
-    color : colors.colorBlack,
-    fontSize : 18,
-    fontWeight : '700'
+    color: colors.colorBlack,
+    fontSize: 18,
+    fontWeight: '700',
   },
 
   underlineStyleHighLighted: {

@@ -32,9 +32,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   TextStyle: {
-    fontSize : 20,
+    fontSize : 18,
     color : colors.colorWhite,
-    fontWeight : '800',
+    fontWeight : '600',
     letterSpacing : 0.5
   },
 });

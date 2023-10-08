@@ -9,6 +9,8 @@ export default {
     needLocation : 'For all your lending needs!',
     loginBoxTitle : 'Enter your phone number to login!',
     SendOtp : 'Send OTP',
-    Conform : 'Confirm'
+    Conform : 'Confirm',
+    Dashboard : 'Dashboard',
+    ActiveLoan : 'Active Loans'
   };
   

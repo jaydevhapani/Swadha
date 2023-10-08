@@ -26,6 +26,8 @@ const colors = {
     DarkBlue : '#35828f',
     LowBlue : '#80bdc3',
     ButtonColor : '#33808c',
+    grey4 : '#e9ebe8',
+    snowBlue : '#67d1f1',
   };
   export default colors;
   

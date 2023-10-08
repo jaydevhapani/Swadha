@@ -1,7 +1,7 @@
 import {Buffer} from 'buffer';
 import {Alert, Dimensions} from 'react-native';
 
-// response code for check from bakand side
+// response code for check from backend side
 export const responseCodes = {
   OK: 200,
   CREATED: 201,

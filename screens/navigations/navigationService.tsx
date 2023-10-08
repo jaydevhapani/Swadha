@@ -33,6 +33,7 @@ function navigate(routeName: any, params: any) {
   );
 }
 
+
 /**
  * @function goBack
  */

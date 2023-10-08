@@ -34,21 +34,21 @@ const style = StyleSheet.create({
   viewBox: {
     height: 60,
     width: '100%',
-    borderWidth: 1,
-    borderRadius: 10,
+    borderWidth: 0.4,
+    borderRadius: 20,
   },
   inputBox: {
     height: 60,
     width: '100%',
     paddingHorizontal: 10,
     color: colors.colorBlack,
-    fontSize : 20,
+    fontSize : 16,
     fontWeight : '600'
   },
   title : {
     fontSize : 16,
-    color : colors.colorBlack,
-    fontWeight : '700',
+    color : colors.lightBlack,
+    fontWeight : '400',
     marginTop : 6,
     marginBottom : 6,
   }
