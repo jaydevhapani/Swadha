@@ -6,7 +6,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import commanStyles from '../../utilies/commanStyles';
 import images from '../../assests/images';
 import CommonFooterLogo from '../../components/commonFooterLogo';
@@ -18,11 +18,15 @@ import {HEIGHT} from '../../utilies/constant';
 import CommonButton from '../../components/commonButton';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import navigationService from '../../navigations/navigationService';
-import { ScreenName } from '../../navigations/screenName';
+import {ScreenName} from '../../navigations/screenName';
+import {useDispatch} from 'react-redux';
+import {isLoaderState} from '../../reduxConfig/slices/commanSlice';
 
 type Props = {};
 
 const Login = (props: Props) => {
+  const dispatch = useDispatch();
+
   //STATE
   const [isOtpRecived, setIsOtpRecived] = useState(Boolean);
 
@@ -34,7 +38,12 @@ const Login = (props: Props) => {
       navigationService.navigate(ScreenName.DashBoard, '');
     }
   };
-
+  useEffect(() => {
+    dispatch(isLoaderState(true));
+    setTimeout(() => {
+      dispatch(isLoaderState(false));
+    }, 3000);
+  }, []);
   return (
     <SafeAreaView style={[commanStyles.Container, commanStyles.pH10]}>
       <ScrollView
@@ -90,7 +99,7 @@ const Login = (props: Props) => {
         </View>
       </ScrollView>
 
-      <CommonFooterLogo imageStyle={''}/>
+      <CommonFooterLogo imageStyle={''} />
     </SafeAreaView>
   );
 };

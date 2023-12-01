@@ -21,28 +21,34 @@ export const responseCodes = {
   NETWORK_AUTH_REQUIRED: 511,
 };
 
-export const decodeBase64 = (value: WithImplicitCoercion<string> | { [Symbol.toPrimitive](hint: "string"): string; }) => {
+export const decodeBase64 = (
+  value:
+    | WithImplicitCoercion<string>
+    | {[Symbol.toPrimitive](hint: 'string'): string},
+) => {
   return Buffer.from(value, 'base64').toString('ascii');
 };
 
 export const HEIGHT = Dimensions.get('window').height;
 export const WIDTH = Dimensions.get('window').width;
 
-export function AlertBox(onAlert : {
-  onOkPress : any,
-  onCancelPress : any,
-  isCancelAvailable : any,
-  Title : any,
-  Message : any,
-  ButtonTitle : any,
-  CancelTitle : any,
+export function AlertBox(onAlert: {
+  onOkPress: any;
+  onCancelPress: any;
+  isCancelAvailable: any;
+  Title: any;
+  Message: any;
+  ButtonTitle: any;
+  CancelTitle: any;
 }) {
   return onAlert.isCancelAvailable
     ? Alert.alert(onAlert.Title, onAlert.Message, [
         {
           text: onAlert.CancelTitle ? onAlert.CancelTitle : 'Cancel',
           onPress: () => {
-            onAlert.onCancelPress ? (onAlert.onCancelPress && onAlert.onCancelPress()) : {};
+            onAlert.onCancelPress
+              ? onAlert.onCancelPress && onAlert.onCancelPress()
+              : {};
           },
         },
         {
