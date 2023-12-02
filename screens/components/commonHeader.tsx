@@ -3,6 +3,8 @@ import React from 'react';
 import colors from '../utilies/colors';
 import images from '../assests/images';
 import navigationService from '../navigations/navigationService';
+import {useSelector} from 'react-redux';
+import CommanProfileBox from './commanProfileBox';
 
 type Props = {
   isMenu: any;
@@ -11,6 +13,7 @@ type Props = {
 };
 
 const CommonHeader = (props: Props) => {
+  const {userData} = useSelector(({loginSlice}) => loginSlice);
   return (
     <View style={styles.Box}>
       <View
@@ -44,9 +47,31 @@ const CommonHeader = (props: Props) => {
           </TouchableOpacity>
         )}
       </View>
-      <View style={{flex: 2.5}}></View>
+      <View style={{flex: 2.5, alignItems: 'center', justifyContent: 'center'}}>
+        <Text
+          style={{
+            color: colors.colorWhite,
+            fontSize: 14,
+            alignSelf: 'center',
+            fontFamily: 'Montserrat-Medium',
+          }}>
+          {userData?.firstName + ' ' + userData?.lastName}
+        </Text>
+        <Text
+          style={{
+            color: colors.colorWhite,
+            fontSize: 12,
+            alignSelf: 'center',
+            fontFamily: 'Montserrat-Medium',
+          }}>
+          {'Last Login: 27 jun at 09:13 pm'}
+        </Text>
+      </View>
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <View style={styles.Profile} />
+        <CommanProfileBox
+          viewStyle={styles.Profile}
+          imageStyle={styles.image}
+        />
       </View>
     </View>
   );
@@ -66,6 +91,12 @@ const styles = StyleSheet.create({
     height: 50,
     width: 50,
     borderRadius: 25,
-    backgroundColor: colors.gray1,
+    marginTop: 0,
+    alignSelf: 'flex-end',
+  },
+  image: {
+    height: 50,
+    width: 50,
+    borderRadius: 25,
   },
 });

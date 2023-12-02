@@ -7,6 +7,7 @@ import {PersistGate} from 'redux-persist/integration/react';
 import {Provider} from 'react-redux';
 import store from './screens/reduxConfig/store';
 import netInfo from '@react-native-community/netinfo';
+import CommonLoader from './screens/components/commonLoader';
 
 //GLOBAL PROPS
 type Props = {};
@@ -14,6 +15,8 @@ type Props = {};
 //GLOBAL VARIALBLES OPRATION
 declare global {
   var isInterNetConection: boolean;
+  var accessToken: string;
+  var cid: String;
 }
 
 //REDUX PART
@@ -24,6 +27,7 @@ const interNetConnectivity = async () => {
   netInfo.addEventListener(state => {
     if (state.isInternetReachable || state.isConnected) {
       global.isInterNetConection = true;
+      global.accessToken = '5dc259a22d32db0a716a44dab909e80a';
     } else {
       global.isInterNetConection = false;
       Alert.alert('Opps! No Internet Connection.');
@@ -41,6 +45,7 @@ const App = (props: Props) => {
       <PersistGate loading={null} persistor={persister}>
         <NavigationContainer>
           <ScreenNavigation />
+          <CommonLoader />
         </NavigationContainer>
       </PersistGate>
     </Provider>

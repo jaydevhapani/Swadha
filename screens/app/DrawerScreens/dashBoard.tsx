@@ -7,7 +7,7 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import commanStyles from '../../utilies/commanStyles';
 import CommonHeader from '../../components/commonHeader';
 import {useDrawerStatus} from '@react-navigation/drawer';
@@ -15,7 +15,10 @@ import i18n from '../../utilies/i18n';
 import colors from '../../utilies/colors';
 import images from '../../assests/images';
 import navigationService from '../../navigations/navigationService';
-import { ScreenName } from '../../navigations/screenName';
+import {ScreenName} from '../../navigations/screenName';
+import {Post_Api} from '../../apiHelper/apiHelper';
+import apiName from '../../apiHelper/apiName';
+import {useDispatch} from 'react-redux';
 
 const dummyArray = [
   {
@@ -39,6 +42,32 @@ type Props = {
 };
 
 const DashBoard = (props: Props) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    fetchActiveLoan();
+  }, []);
+
+  //State
+  const [activeData, setActiveData] = useState([]);
+
+  //fetchActiveLoan
+  const fetchActiveLoan = async () => {
+    const Object = {
+      token: global.accessToken,
+      cid: global.cid,
+    };
+    try {
+      await Post_Api(apiName.activeLoan, Object, dispatch)
+        .then(json => {
+          if (json) {
+            console.log(json);
+            setActiveData(json.data);
+          }
+        })
+        .catch(error => {});
+    } catch (error) {}
+  };
   return (
     <SafeAreaView style={[commanStyles.Container]}>
       <CommonHeader
@@ -46,64 +75,76 @@ const DashBoard = (props: Props) => {
         isDrawerFlag={useDrawerStatus()}
         navigation={props?.navigation}
       />
-      <View style={[commanStyles.Container, commanStyles.pH10]}>
+      <View
+        style={[
+          commanStyles.Container,
+          commanStyles.pH10,
+          {paddingBottom: 10},
+        ]}>
         <Text style={commanStyles.HeaderText}>{i18n.Dashboard}</Text>
         {/* Active Loans */}
         <View style={{height: 30}} />
-        <FlatList
-          data={dummyArray}
-          renderItem={({item, index}) => {
-            return (
-              <TouchableOpacity style={style.ItemBox}
-              onPress={() => {
-                navigationService.navigate(ScreenName.LoanStatus, '')
-              }}
-              >
-                <View style={{flex: 6}}>
-                  <View style={{flexDirection: 'row'}}>
-                    <Text style={style.HeadLine}>{Object.keys(item)[0]}:</Text>
-                    <Text style={style.answerLine}>{item.LAN}</Text>
-                  </View>
-                  <View style={{flexDirection: 'row'}}>
-                    <Text style={style.HeadLine}>{Object.keys(item)[1]}:</Text>
-                    <Text style={style.answerLine}>{item.LoanAmount}</Text>
-                  </View>
-                  <View style={{flexDirection: 'row'}}>
-                    <Text style={style.HeadLine}>{Object.keys(item)[2]}:</Text>
-                    <Text style={style.answerLine}>{item.EMIAmount}</Text>
-                  </View>
-                  <View style={{flexDirection: 'row'}}>
-                    <Text style={style.HeadLine}>{Object.keys(item)[3]}:</Text>
-                    <Text style={style.answerLine}>{item.EMIDate}</Text>
-                  </View>
-                  <View style={{flexDirection: 'row'}}>
-                    <Text style={style.HeadLine}>{Object.keys(item)[4]}:</Text>
-                    <Text style={style.answerLine}>{item.Overdue}</Text>
-                  </View>
-                </View>
-                <View
-                  style={{
-                    flex: 1,
-                    alignItems: 'center',
-                    justifyContent: 'center',
+        {activeData.length != 0 && (
+          <FlatList
+            data={activeData}
+            renderItem={({item, index}) => {
+              return (
+                <TouchableOpacity
+                  key={index}
+                  style={[style.ItemBox]}
+                  onPress={() => {
+                    navigationService.navigate(ScreenName.LoanStatus, {
+                      loanid: item['loanid'],
+                    });
                   }}>
-                  <Image
-                    source={images.arrow}
+                  <View style={{flex: 6}}>
+                    <View style={{flexDirection: 'row'}}>
+                      <Text style={style.HeadLine}>{'LAN'}:</Text>
+                      <Text style={style.answerLine}>{item['loan_ac_no']}</Text>
+                    </View>
+                    <View style={{flexDirection: 'row'}}>
+                      <Text style={style.HeadLine}>{'LoanAmount'}:</Text>
+                      <Text style={style.answerLine}>
+                        {item['loan_amount']}
+                      </Text>
+                    </View>
+                    <View style={{flexDirection: 'row'}}>
+                      <Text style={style.HeadLine}>{'EMIAmount'}:</Text>
+                      <Text style={style.answerLine}>{item['emi_amount']}</Text>
+                    </View>
+                    <View style={{flexDirection: 'row'}}>
+                      <Text style={style.HeadLine}>{'EMIDate'}:</Text>
+                      <Text style={style.answerLine}>{item['emi_date']}</Text>
+                    </View>
+                    <View style={{flexDirection: 'row'}}>
+                      <Text style={style.HeadLine}>{'Overdue'}:</Text>
+                      <Text style={style.answerLine}>{item['overdue']}</Text>
+                    </View>
+                  </View>
+                  <View
                     style={{
-                      height: 26,
-                      width: 26,
-                      transform: [{rotate: '180deg'}],
-                    }}
-                  />
-                </View>
-              </TouchableOpacity>
-            );
-          }}
-          ItemSeparatorComponent={() => <View style={{height: 20}} />}
-          ListHeaderComponent={() => (
-            <Text style={style.boxText}>{i18n.ActiveLoan}</Text>
-          )}
-        />
+                      flex: 1,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}>
+                    <Image
+                      source={images.arrow}
+                      style={{
+                        height: 26,
+                        width: 26,
+                        transform: [{rotate: '180deg'}],
+                      }}
+                    />
+                  </View>
+                </TouchableOpacity>
+              );
+            }}
+            ItemSeparatorComponent={() => <View style={{height: 20}} />}
+            ListHeaderComponent={() => (
+              <Text style={style.boxText}>{i18n.ActiveLoan}</Text>
+            )}
+          />
+        )}
       </View>
     </SafeAreaView>
   );

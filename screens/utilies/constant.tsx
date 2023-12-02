@@ -33,35 +33,17 @@ export const HEIGHT = Dimensions.get('window').height;
 export const WIDTH = Dimensions.get('window').width;
 
 export function AlertBox(onAlert: {
-  onOkPress: any;
-  onCancelPress: any;
-  isCancelAvailable: any;
   Title: any;
   Message: any;
-  ButtonTitle: any;
-  CancelTitle: any;
+  onOkPress?: any;
+  ButtonTitle?: any;
 }) {
-  return onAlert.isCancelAvailable
-    ? Alert.alert(onAlert.Title, onAlert.Message, [
-        {
-          text: onAlert.CancelTitle ? onAlert.CancelTitle : 'Cancel',
-          onPress: () => {
-            onAlert.onCancelPress
-              ? onAlert.onCancelPress && onAlert.onCancelPress()
-              : {};
-          },
-        },
-        {
-          text: onAlert.ButtonTitle ? onAlert.ButtonTitle : 'OK',
-          onPress: () => onAlert.onOkPress && onAlert.onOkPress(),
-        },
-      ])
-    : Alert.alert(onAlert.Title, onAlert.Message, [
-        {
-          text: onAlert.ButtonTitle ? onAlert.ButtonTitle : 'OK',
-          onPress: () => onAlert.onOkPress && onAlert.onOkPress(),
-        },
-      ]);
+  return Alert.alert(onAlert?.Title, onAlert?.Message, [
+    {
+      text: onAlert.ButtonTitle ? onAlert.ButtonTitle : 'OK',
+      onPress: () => onAlert.onOkPress && onAlert.onOkPress(),
+    },
+  ]);
 }
 // export const netWorkCheck = async () => {
 //   const state = await NetInfo.fetch();

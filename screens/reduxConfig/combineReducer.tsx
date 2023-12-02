@@ -1,9 +1,10 @@
 import {combineReducers} from 'redux';
-import {loginAuth} from './slices/loginSlice';
+
+import loginSlice from './slices/loginSlice';
 import commanSlice from './slices/commanSlice';
 
 const rootReducer = combineReducers({
-  loginAuth: loginAuth,
+  loginSlice: loginSlice,
   commanSlice: commanSlice,
 });
 

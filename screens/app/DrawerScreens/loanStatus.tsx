@@ -7,16 +7,20 @@ import {
   ScrollView,
   FlatList,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import commanStyles from '../../utilies/commanStyles';
 import CommonHeader from '../../components/commonHeader';
 import colors from '../../utilies/colors';
 import {WIDTH} from '../../utilies/constant';
 import navigationService from '../../navigations/navigationService';
 import {ScreenName} from '../../navigations/screenName';
+import {Post_Api} from '../../apiHelper/apiHelper';
+import apiName from '../../apiHelper/apiName';
+import {useDispatch} from 'react-redux';
 
 type Props = {
   navigation: any;
+  route: any;
 };
 
 const footerArray = [
@@ -47,6 +51,47 @@ const footerArray = [
 ];
 
 const LoanStatus = (props: Props) => {
+  const dispatch = useDispatch();
+  const [loadnDetails, setLoadnDetails] = useState({
+    loanid: '',
+    loan_amount: '',
+    roi: '',
+    outstanding_amount: 0,
+    repayment_mode: '',
+    overdue: 0,
+    start_date: '',
+    end_date: '',
+    statement: '',
+    repayment_schedule: '',
+    sanction_letter: '',
+    noc_letter: '',
+    insurance_policy: '',
+  });
+  useEffect(() => {
+    if (props.route.params.loanid != undefined) {
+      fetchLoadnDetails();
+    }
+  }, [props]);
+
+  //fetchLoadnDetails
+  const fetchLoadnDetails = async () => {
+    const Object = {
+      token: global.accessToken,
+      loanid: props.route.params.loanid,
+    };
+    try {
+      await Post_Api(apiName.activeLoanDetails, Object, dispatch)
+        .then(json => {
+          if (json) {
+            if (json) {
+              setLoadnDetails(json?.data);
+            }
+          }
+        })
+        .catch(error => {});
+    } catch (error) {}
+  };
+
   return (
     <SafeAreaView style={commanStyles.Container}>
       <CommonHeader
@@ -62,11 +107,13 @@ const LoanStatus = (props: Props) => {
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <View style={[style.Box1, style.contentWidth]}>
               <Text style={style.BoxHeader}>{'Total Loan Amount'}</Text>
-              <Text style={style.BoxAnswer}>{'10000'}</Text>
+              <Text style={style.BoxAnswer}>{loadnDetails.loan_amount}</Text>
             </View>
             <View style={[style.Box1, style.contentWidth]}>
               <Text style={style.BoxHeader}>{'Current Outstanding'}</Text>
-              <Text style={style.BoxAnswer}>{'10000'}</Text>
+              <Text style={style.BoxAnswer}>
+                {loadnDetails.outstanding_amount}
+              </Text>
             </View>
           </View>
           <View
@@ -77,11 +124,11 @@ const LoanStatus = (props: Props) => {
             }}>
             <View style={[style.Box1, style.contentWidth]}>
               <Text style={style.BoxHeader}>{'Rate of Interest'}</Text>
-              <Text style={style.BoxAnswer}>{'%10'}</Text>
+              <Text style={style.BoxAnswer}>{loadnDetails.roi + '%'}</Text>
             </View>
             <View style={[style.Box1, style.contentWidth]}>
-              <Text style={style.BoxHeader}>{'Current Outstanding'}</Text>
-              <Text style={style.BoxAnswer}>{'10000'}</Text>
+              <Text style={style.BoxHeader}>{'Repayment Mode'}</Text>
+              <Text style={style.BoxAnswer}>{loadnDetails.repayment_mode}</Text>
             </View>
           </View>
           <View
@@ -95,8 +142,8 @@ const LoanStatus = (props: Props) => {
             ]}>
             <View
               style={{flex: 2, alignItems: 'center', justifyContent: 'center'}}>
-              <Text style={style.BoxHeader}>{'Current Outstanding'}</Text>
-              <Text style={style.BoxAnswer}>{'10000'}</Text>
+              <Text style={style.BoxHeader}>{'Overdue Amount'}</Text>
+              <Text style={style.BoxAnswer}>{loadnDetails.overdue}</Text>
             </View>
             <View
               style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
@@ -113,6 +160,7 @@ const LoanStatus = (props: Props) => {
               </TouchableOpacity>
             </View>
           </View>
+          {/* {//!Tenure EMI paid calculation is on pending.........} */}
           <View
             style={{
               flexDirection: 'row',
@@ -128,7 +176,7 @@ const LoanStatus = (props: Props) => {
                     fontSize: 13,
                   },
                 ]}>
-                {'07-December-2023'}
+                {loadnDetails.start_date}
               </Text>
             </View>
             <View style={[style.Box1, style.contentWidth]}>
@@ -140,7 +188,7 @@ const LoanStatus = (props: Props) => {
                     fontSize: 13,
                   },
                 ]}>
-                {'07-December-2023'}
+                {loadnDetails.end_date}
               </Text>
             </View>
           </View>

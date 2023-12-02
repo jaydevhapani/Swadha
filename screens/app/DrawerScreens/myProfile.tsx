@@ -16,6 +16,7 @@ import i18n from '../../utilies/i18n';
 import CommonButton from '../../components/commonButton';
 import CommonAlertBox from '../../components/commonAlertBox';
 import {HEIGHT} from '../../utilies/constant';
+import CommanProfileBox from '../../components/commanProfileBox';
 
 type Props = {
   navigation: any;
@@ -48,7 +49,7 @@ const MyProfile = (props: Props) => {
           <View style={[commanStyles.Container, commanStyles.pH10]}>
             <Text style={commanStyles.HeaderText}>My Profile</Text>
             <View>
-              <View style={styles.Profile} />
+              <CommanProfileBox />
               <TouchableOpacity
                 style={styles.absoluteButton}></TouchableOpacity>
             </View>
@@ -105,7 +106,7 @@ const MyProfile = (props: Props) => {
                 marginTop: 20,
               }}>
               <CommonButton
-                BUttonStyle={{height : 45}}
+                BUttonStyle={{height: 45}}
                 onPress={() => {}}
                 textStyle={''}
                 title={'Update'}
@@ -119,14 +120,6 @@ const MyProfile = (props: Props) => {
 };
 
 const styles = StyleSheet.create({
-  Profile: {
-    height: 100,
-    width: 100,
-    alignSelf: 'center',
-    borderRadius: 50,
-    backgroundColor: colors.gray1,
-    marginTop: 20,
-  },
   absoluteButton: {
     position: 'absolute',
     backgroundColor: 'pink',

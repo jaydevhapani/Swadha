@@ -3,6 +3,7 @@
   this is normal default header config.
 */
 
+import {isLoaderState} from '../reduxConfig/slices/commanSlice';
 import {AlertBox, responseCodes} from '../utilies/constant';
 import i18n from '../utilies/i18n';
 
@@ -10,8 +11,9 @@ import i18n from '../utilies/i18n';
 export const Post_Api = async (
   Url: RequestInfo,
   params: any,
-  accessToken: any,
+  dispatch?: any,
 ) => {
+  dispatch(isLoaderState(true));
   return await fetch(
     Url,
     params
@@ -20,7 +22,7 @@ export const Post_Api = async (
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${global.accessToken}`,
           },
           body: JSON.stringify(params),
         }
@@ -29,51 +31,41 @@ export const Post_Api = async (
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${global.accessToken}`,
           },
         },
   )
     .then(response => response.json())
     .then(json => {
-      console.log('URL :::', Url);
-
-      console.log('dsdadasdas', json);
       const JsonData = checkOfResponseValidation(json);
       console.log('JsonData', JsonData);
+      dispatch(isLoaderState(false));
       return JsonData;
     })
     .catch(error => {
+      dispatch(isLoaderState(false));
       AlertBox({
         Title: i18n.Alert,
         Message: error.toString() + '!',
-        onOkPress: undefined,
-        onCancelPress: undefined,
-        isCancelAvailable: undefined,
-        ButtonTitle: undefined,
-        CancelTitle: undefined,
       });
       return error;
     });
 };
 
 //Form_Data_Post
-export const Post_Form_Data_Api = async (
-  Url: RequestInfo,
-  params: any,
-  accessToken: any,
-) => {
+export const Post_Form_Data_Api = async (Url: RequestInfo, params: any) => {
   return await fetch(Url, {
     method: 'POST',
     headers: {
       // Accept: 'application/json',
       'Content-Type': 'multipart/form-data',
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${global.accessToken}`,
     },
     body: params,
   })
     .then(response => response.json())
     .then(json => {
-      console.log('json', json);
+      console.log('URL :::', Url);
       const JsonData = checkOfResponseValidation(json);
       console.log('JsonData', JsonData);
       return JsonData;
@@ -82,77 +74,55 @@ export const Post_Form_Data_Api = async (
       AlertBox({
         Title: i18n.Alert,
         Message: error.toString() + '!',
-        onOkPress: undefined,
-        onCancelPress: undefined,
-        isCancelAvailable: undefined,
-        ButtonTitle: undefined,
-        CancelTitle: undefined,
       });
       return error;
     });
 };
 
 //Normal_Get
-export const Get_Api = async (
-  Url: RequestInfo,
-  params: any,
-  accessToken: any,
-) => {
+export const Get_Api = async (Url: RequestInfo, params: any) => {
   return await fetch(Url, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${global.accessToken}`,
     },
   })
     .then(response => response.json())
     .then(json => {
+      console.log('URL :::', Url);
       const JsonData = checkOfResponseValidation(json);
+      console.log('JsonData', JsonData);
       Promise.resolve(JsonData);
     })
     .catch(error => {
       AlertBox({
         Title: i18n.Alert,
         Message: 'Something Went Wrong!',
-        onOkPress: undefined,
-        onCancelPress: undefined,
-        isCancelAvailable: undefined,
-        ButtonTitle: undefined,
-        CancelTitle: undefined,
       });
       Promise.reject(error);
     });
 };
 
 //check All Validation of API
-const checkOfResponseValidation = (response: {
-  status_code: any;
-  message: any;
-}) => {
-  if (response?.status_code === responseCodes.OK) {
+const checkOfResponseValidation = (response: {status: any; msg?: any}) => {
+  if (response?.status === true) {
     return response;
-  } else if (response?.status_code === responseCodes.UNAUTHORIZED) {
+  }
+  //  else if (response?.status === responseCodes.UNAUTHORIZED) {
+  //   AlertBox({
+  //     Title: i18n.Alert,
+  //     Message: response?.message,
+  //     onOkPress: () => {
+  //       // NavigationService.resetAndRedirect(ScreenName.Welcome);
+  //     },
+  //   });
+  // }
+  else {
     AlertBox({
       Title: i18n.Alert,
-      Message: response?.message,
-      onOkPress: () => {
-        // NavigationService.resetAndRedirect(ScreenName.Welcome);
-      },
-      onCancelPress: undefined,
-      isCancelAvailable: undefined,
-      ButtonTitle: undefined,
-      CancelTitle: undefined,
-    });
-  } else {
-    AlertBox({
-      Title: i18n.Alert,
-      Message: response?.message,
-      onOkPress: undefined,
-      onCancelPress: undefined,
-      isCancelAvailable: undefined,
-      ButtonTitle: undefined,
-      CancelTitle: undefined,
+      Message: response?.msg,
     });
   }
 };

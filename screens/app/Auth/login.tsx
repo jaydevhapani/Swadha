@@ -14,13 +14,15 @@ import CommonSwadhaText from '../../components/commonSwadhaText';
 import colors from '../../utilies/colors';
 import i18n from '../../utilies/i18n';
 import CommonTextInput from '../../components/commonTextInput';
-import {HEIGHT} from '../../utilies/constant';
+import {AlertBox, HEIGHT} from '../../utilies/constant';
 import CommonButton from '../../components/commonButton';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
+import {useDispatch} from 'react-redux';
+import {Post_Api} from '../../apiHelper/apiHelper';
+import apiName from '../../apiHelper/apiName';
 import navigationService from '../../navigations/navigationService';
 import {ScreenName} from '../../navigations/screenName';
-import {useDispatch} from 'react-redux';
-import {isLoaderState} from '../../reduxConfig/slices/commanSlice';
+import {loginAuth} from '../../reduxConfig/slices/loginSlice';
 
 type Props = {};
 
@@ -29,21 +31,63 @@ const Login = (props: Props) => {
 
   //STATE
   const [isOtpRecived, setIsOtpRecived] = useState(Boolean);
+  const [state, setState] = useState({
+    token: global.accessToken,
+    mobileno: undefined,
+    otp: undefined,
+  });
 
   //onButtonPress
   const onButtonPress = () => {
     if (!isOtpRecived) {
-      setIsOtpRecived(true);
-    } else {
-      navigationService.navigate(ScreenName.DashBoard, '');
+      if (state.mobileno == undefined) {
+        AlertBox({
+          Title: i18n.Alert,
+          Message: 'Please Enter Your Mobile Number.',
+        });
+      } else {
+        fetchOtpApi();
+      }
+    }
+    if (isOtpRecived) {
+      if (state.otp === undefined) {
+        AlertBox({
+          Title: i18n.Alert,
+          Message: 'Please Enter Your Otp.',
+        });
+      } else {
+        fetchOtpApi();
+      }
     }
   };
-  useEffect(() => {
-    dispatch(isLoaderState(true));
-    setTimeout(() => {
-      dispatch(isLoaderState(false));
-    }, 3000);
-  }, []);
+
+  const fetchOtpApi = async () => {
+    try {
+      console.log(state);
+      if (!isOtpRecived) {
+        await Post_Api(apiName.getOtp, state, dispatch)
+          .then(json => {
+            setIsOtpRecived(true);
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
+      if (isOtpRecived) {
+        await Post_Api(apiName.verifyOtp, state, dispatch)
+          .then(json => {
+            if (json) {
+              dispatch(loginAuth(json?.data));
+              navigationService.resetAndRedirect(ScreenName.DashBoard);
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
+    } catch (error) {}
+  };
+
   return (
     <SafeAreaView style={[commanStyles.Container, commanStyles.pH10]}>
       <ScrollView
@@ -65,8 +109,10 @@ const Login = (props: Props) => {
             {!isOtpRecived && (
               <CommonTextInput
                 title={i18n.loginBoxTitle}
-                placeHolder={''}
-                onChange={(t: any) => {}}
+                placeHolder={'Please Enter Your Mobile Number'}
+                onChange={(t: any) =>
+                  setState(prev => ({...prev, ['mobileno']: t}))
+                }
                 inputViewStye={''}
                 textInputStyle={''}
                 maxLength={10}
@@ -80,8 +126,9 @@ const Login = (props: Props) => {
                 autoFocusOnLoad
                 codeInputFieldStyle={style.underlineStyleBase}
                 codeInputHighlightStyle={style.underlineStyleHighLighted}
-                onCodeFilled={code => {
+                onCodeFilled={(code: any) => {
                   console.log(`Code is ${code}, you are good to go!`);
+                  setState(prev => ({...prev, ['otp']: code}));
                 }}
               />
             )}
