@@ -9,7 +9,7 @@ import {
   TextInput,
   ScrollView,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import commanStyles from '../../utilies/commanStyles';
 import CommonHeader from '../../components/commonHeader';
 import {useDrawerStatus} from '@react-navigation/drawer';
@@ -19,9 +19,13 @@ import navigationService from '../../navigations/navigationService';
 import {ScreenName} from '../../navigations/screenName';
 import CommonTextInput from '../../components/commonTextInput';
 import CommonButton from '../../components/commonButton';
+import {Post_Api} from '../../apiHelper/apiHelper';
+import apiName from '../../apiHelper/apiName';
+import {useDispatch} from 'react-redux';
 
 type Props = {
   navigation: any;
+  route: any;
 };
 
 const dummyArray = [
@@ -35,6 +39,41 @@ const dummyArray = [
 ];
 
 const AdvanceEmi = (props: Props) => {
+  const dispatch = useDispatch();
+
+  const [advanceEmi, setAdvanceEmi] = useState({
+    loanid: null,
+    loan_ac_no: null,
+    emi_amount: null,
+    emi_date: null,
+    payable_amount: null,
+  });
+
+  useEffect(() => {
+    if (props.route.params.loanid != undefined) {
+      fetchAdvanceEmi();
+    }
+  }, [props]);
+
+  //fetchAdvanceEmi
+  const fetchAdvanceEmi = async () => {
+    const Object = {
+      token: global.accessToken,
+      loanid: props.route.params.loanid,
+    };
+    try {
+      await Post_Api(apiName.advanceEmi, Object, dispatch)
+        .then(json => {
+          if (json) {
+            if (json) {
+              setAdvanceEmi(json?.data);
+            }
+          }
+        })
+        .catch(error => {});
+    } catch (error) {}
+  };
+
   return (
     <SafeAreaView style={commanStyles.Container}>
       <CommonHeader
@@ -49,37 +88,36 @@ const AdvanceEmi = (props: Props) => {
         <View style={[commanStyles.Container, commanStyles.pH10]}>
           <Text style={commanStyles.HeaderText}>Advance EMI</Text>
           <View style={{marginTop: 40}}>
-            <FlatList
-              data={dummyArray}
-              style={{paddingBottom : 10}}
-              renderItem={({item, index}) => {
-                return (
-                  <View style={style.Box}>
-                    <View style={{flex: 1}}>
-                      <View style={{flexDirection: 'row'}}>
-                        <Text style={style.HeadLine}>
-                          {Object.keys(item)[0]}:
-                        </Text>
-                        <Text style={style.answerLine}>{item.LAN}</Text>
-                      </View>
-                      <View style={{flexDirection: 'row'}}>
-                        <Text style={style.HeadLine}>
-                          {Object.keys(item)[2]}:
-                        </Text>
-                        <Text style={style.answerLine}>{item.EMIAmount}</Text>
-                      </View>
-                      <View style={{flexDirection: 'row'}}>
-                        <Text style={style.HeadLine}>
-                          {Object.keys(item)[3]}:
-                        </Text>
-                        <Text style={style.answerLine}>{item.EMIDate}</Text>
-                      </View>
-                    </View>
-                  </View>
-                );
-              }}
-              ItemSeparatorComponent={() => <View style={{height: 20}} />}
-            />
+            <View style={style.Box}>
+              <View style={{flex: 1}}>
+                <View style={{flexDirection: 'row'}}>
+                  <Text style={style.HeadLine}>{'LAN'}:</Text>
+                  <Text style={style.answerLine}>
+                    {advanceEmi.loan_ac_no ? advanceEmi.loan_ac_no : ''}
+                  </Text>
+                </View>
+                <View style={{flexDirection: 'row'}}>
+                  <Text style={style.HeadLine}>{'EMIAmount'}:</Text>
+                  <Text style={style.answerLine}>
+                    {advanceEmi.emi_amount ? advanceEmi.emi_amount : ''}
+                  </Text>
+                </View>
+                <View style={{flexDirection: 'row'}}>
+                  <Text style={style.HeadLine}>{'EMIDate'}:</Text>
+                  <Text style={style.answerLine}>
+                    {advanceEmi?.emi_date ? advanceEmi?.emi_date : ''}
+                  </Text>
+                </View>
+                <View style={{flexDirection: 'row'}}>
+                  <Text style={style.HeadLine}>{'PayableAmount'}:</Text>
+                  <Text style={style.answerLine}>
+                    {advanceEmi?.payable_amount
+                      ? advanceEmi?.payable_amount
+                      : ''}
+                  </Text>
+                </View>
+              </View>
+            </View>
             <View style={{marginVertical: 20}}>
               <Text style={style.boxText}>Amount to Pay</Text>
             </View>

@@ -78,6 +78,7 @@ const Login = (props: Props) => {
           .then(json => {
             if (json) {
               dispatch(loginAuth(json?.data));
+              global.cid = json?.data?.cid;
               navigationService.resetAndRedirect(ScreenName.DashBoard);
             }
           })

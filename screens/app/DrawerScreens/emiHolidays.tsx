@@ -7,18 +7,61 @@ import {
   Image,
   ScrollView,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import commanStyles from '../../utilies/commanStyles';
 import CommonHeader from '../../components/commonHeader';
 import colors from '../../utilies/colors';
 import images from '../../assests/images';
 import CommonButton from '../../components/commonButton';
+import {useDispatch} from 'react-redux';
+import {Post_Api} from '../../apiHelper/apiHelper';
+import apiName from '../../apiHelper/apiName';
 
 type Props = {
   navigation: any;
+  route: any;
 };
 
 const EmiHolidays = (props: Props) => {
+  const dispatch = useDispatch();
+
+  const [holyDay, setHoyDay] = useState({
+    loanid: null,
+    loan_ac_no: null,
+    emi_amount: null,
+    emi_date: null,
+    payable_amount: null,
+    terms: {
+      '1': 'Pay advance emi as per the rule',
+      '2': 'Pay advance emi as per the rule',
+      '3': 'Pay advance emi as per the rule',
+    },
+  });
+
+  useEffect(() => {
+    if (props.route.params.loanid != undefined) {
+      fetchAdvanceEmi();
+    }
+  }, [props]);
+
+  //fetchAdvanceEmi
+  const fetchAdvanceEmi = async () => {
+    const Object = {
+      token: global.accessToken,
+      loanid: props.route.params.loanid,
+    };
+    try {
+      await Post_Api(apiName.holyday, Object, dispatch)
+        .then(json => {
+          if (json) {
+            if (json) {
+              setHoyDay(json?.data);
+            }
+          }
+        })
+        .catch(error => {});
+    } catch (error) {}
+  };
   return (
     <SafeAreaView style={commanStyles.Container}>
       <CommonHeader
@@ -46,15 +89,15 @@ const EmiHolidays = (props: Props) => {
             }}>
             <View style={{flexDirection: 'row'}}>
               <Text style={style.HeadLine}>{'LAN'}:</Text>
-              <Text style={style.answerLine}>{'8618726187226781'}</Text>
+              <Text style={style.answerLine}>{holyDay.loan_ac_no ? holyDay.loan_ac_no : ''}</Text>
             </View>
             <View style={{flexDirection: 'row'}}>
               <Text style={style.HeadLine}>{'EMI Amount'}:</Text>
-              <Text style={style.answerLine}>{'13000'}</Text>
+              <Text style={style.answerLine}>{holyDay.emi_amount ? holyDay.emi_amount : ''}</Text>
             </View>
             <View style={{flexDirection: 'row'}}>
               <Text style={style.HeadLine}>{'EMI Date'}:</Text>
-              <Text style={style.answerLine}>{'8th - Aug - 2023'}</Text>
+              <Text style={style.answerLine}>{holyDay.emi_date ? holyDay.emi_date : ''}</Text>
             </View>
             <View
               style={{
@@ -67,11 +110,11 @@ const EmiHolidays = (props: Props) => {
             <View style={style.Box}>
               <Text style={style.boxText}>Terms of Holidays EMI</Text>
               <Text style={[style.boxText, {color: colors.gray1}]}>
-                {'1. Pay Advance EMI as per the rule' +
+                {'1.'+holyDay.terms[1] +
                   '\n' +
-                  '2. Pay as per the rule' +
+                  '2.'+holyDay.terms[2] +
                   '\n' +
-                  '3. New activity to be approved'}
+                  '3.'+holyDay.terms[3]}
               </Text>
             </View>
             <View style={{marginVertical: 30, flexDirection: 'row'}}>

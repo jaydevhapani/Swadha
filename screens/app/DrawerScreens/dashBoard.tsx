@@ -56,7 +56,7 @@ const DashBoard = (props: Props) => {
     const Object = {
       token: global.accessToken,
       cid: global.cid,
-    };
+    };    
     try {
       await Post_Api(apiName.activeLoan, Object, dispatch)
         .then(json => {

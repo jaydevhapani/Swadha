@@ -213,7 +213,9 @@ const LoanStatus = (props: Props) => {
                       marginTop: 10,
                     }}
                     onPress={() => {
-                      navigationService.navigate(item.name, '');
+                      navigationService.navigate(item.name, {
+                        loanid: loadnDetails.loanid,
+                      });
                     }}>
                     <Text style={{color: colors.colorWhite}}>{item?.name}</Text>
                   </TouchableOpacity>
