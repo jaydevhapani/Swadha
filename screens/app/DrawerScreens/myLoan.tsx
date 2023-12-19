@@ -22,96 +22,6 @@ import apiName from '../../apiHelper/apiName';
 import {useDispatch} from 'react-redux';
 import {userProfileData} from '../../reduxConfig/slices/commanSlice';
 
-const dummyArray = {
-  status: true,
-  msg: 'Success',
-  data: {
-    closed: [
-      {
-        loanid: '100290',
-        loan_ac_no: '100110100100290',
-        loan_amount: '300000.00',
-        emi_amount: '13741.00',
-        emi_date: '07th of Every Months',
-        overdue: 0,
-      },
-      {
-        loanid: '100290',
-        loan_ac_no: '100110100100290',
-        loan_amount: '300000.00',
-        emi_amount: '13741.00',
-        emi_date: '07th of Every Months',
-        overdue: 0,
-      },
-      {
-        loanid: '100290',
-        loan_ac_no: '100110100100290',
-        loan_amount: '300000.00',
-        emi_amount: '13741.00',
-        emi_date: '07th of Every Months',
-        overdue: 0,
-      },
-      {
-        loanid: '100290',
-        loan_ac_no: '100110100100290',
-        loan_amount: '300000.00',
-        emi_amount: '13741.00',
-        emi_date: '07th of Every Months',
-        overdue: 0,
-      },
-      {
-        loanid: '100290',
-        loan_ac_no: '100110100100290',
-        loan_amount: '300000.00',
-        emi_amount: '13741.00',
-        emi_date: '07th of Every Months',
-        overdue: 0,
-      },
-    ],
-    active: [
-      {
-        loanid: '100290',
-        loan_ac_no: '100110100100290',
-        loan_amount: '300000.00',
-        emi_amount: '13741.00',
-        emi_date: '07th of Every Months',
-        overdue: 0,
-      },
-      {
-        loanid: '100290',
-        loan_ac_no: '100110100100290',
-        loan_amount: '300000.00',
-        emi_amount: '13741.00',
-        emi_date: '07th of Every Months',
-        overdue: 0,
-      },
-      {
-        loanid: '100290',
-        loan_ac_no: '100110100100290',
-        loan_amount: '300000.00',
-        emi_amount: '13741.00',
-        emi_date: '07th of Every Months',
-        overdue: 0,
-      },
-      {
-        loanid: '100290',
-        loan_ac_no: '100110100100290',
-        loan_amount: '300000.00',
-        emi_amount: '13741.00',
-        emi_date: '07th of Every Months',
-        overdue: 0,
-      },
-      {
-        loanid: '100290',
-        loan_ac_no: '100110100100290',
-        loan_amount: '300000.00',
-        emi_amount: '13741.00',
-        emi_date: '07th of Every Months',
-        overdue: 0,
-      },
-    ],
-  },
-};
 
 type Props = {
   navigation: any;
@@ -121,11 +31,14 @@ const MyLoan = (props: Props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // fetchActiveLoan();
+    fetchActiveLoan();
   }, []);
 
   //State
-  const [activeData, setActiveData] = useState([]);
+  const [loanData, setLoanData] = useState({
+    active : [],
+    closed : [],
+  });
 
   //fetchActiveLoan
   const fetchActiveLoan = async () => {
@@ -134,15 +47,20 @@ const MyLoan = (props: Props) => {
       cid: global.cid,
     };
     try {
-      await Post_Api(apiName.activeLoan, Object, dispatch)
+      await Post_Api(apiName.myLoans, Object, dispatch)
         .then(json => {
           if (json) {
-            setActiveData(json.data);
+            handleArray(json?.data?.active , 'active');
+            handleArray(json?.data?.closed , 'closed');
           }
         })
         .catch(error => {});
     } catch (error) {}
   };
+
+  const handleArray = (data : any , key : string) => {
+    setLoanData(prevdata => ({...prevdata , [key] : data}));
+  }
 
   return (
     <SafeAreaView style={[commanStyles.Container]}>
@@ -157,11 +75,11 @@ const MyLoan = (props: Props) => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={commanStyles.pH10}>
-        {dummyArray.data.active.length != 0 && (
+        {loanData.active && loanData.active.length != 0 && (
           <>
             <Text style={style.boxText}>{i18n.ActiveLoan}</Text>
             <FlatList
-              data={dummyArray.data.active}
+              data={loanData.active}
               renderItem={({item, index}) => (
                 <RenderItem item={item} index={index} />
               )}
@@ -171,11 +89,11 @@ const MyLoan = (props: Props) => {
         )}
         {/* Closed Loans */}
         <View style={{height: 30}} />
-        {dummyArray.data.closed.length != 0 && (
+        {loanData.closed && loanData.closed.length != 0 && (
           <>
             <Text style={style.boxText}>{i18n.ClosedLoan}</Text>
             <FlatList
-              data={dummyArray.data.closed}
+              data={loanData.closed}
               renderItem={({item, index}) => (
                 <RenderItem item={item} index={index} />
               )}
@@ -190,7 +108,7 @@ const MyLoan = (props: Props) => {
 
 const RenderItem = React.memo(({item}: any, index: any) => {
   return (
-    <TouchableOpacity key={index} style={[style.ItemBox]}>
+    <TouchableOpacity key={index} style={[style.ItemBox]} disabled>
       <View style={{flex: 6}}>
         <View style={{flexDirection: 'row'}}>
           <Text style={style.HeadLine}>{'LAN'}:</Text>

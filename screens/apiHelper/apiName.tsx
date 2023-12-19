@@ -7,4 +7,5 @@ export default {
   advanceEmi: BASE_URL + 'getAdvanceEMI',
   holyday: BASE_URL + 'getHolidayEMI',
   getProfile: BASE_URL + 'getProfile',
+  myLoans: BASE_URL + 'getMyLoans',
 };
