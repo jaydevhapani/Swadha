@@ -106,58 +106,9 @@ const DashBoard = (props: Props) => {
         {activeData.length != 0 && (
           <FlatList
             data={activeData}
-            renderItem={({item, index}) => {
-              return (
-                <TouchableOpacity
-                  key={index}
-                  style={[style.ItemBox]}
-                  onPress={() => {
-                    navigationService.navigate(ScreenName.LoanStatus, {
-                      loanid: item['loanid'],
-                    });
-                  }}>
-                  <View style={{flex: 6}}>
-                    <View style={{flexDirection: 'row'}}>
-                      <Text style={style.HeadLine}>{'LAN'}:</Text>
-                      <Text style={style.answerLine}>{item['loan_ac_no']}</Text>
-                    </View>
-                    <View style={{flexDirection: 'row'}}>
-                      <Text style={style.HeadLine}>{'LoanAmount'}:</Text>
-                      <Text style={style.answerLine}>
-                        {item['loan_amount']}
-                      </Text>
-                    </View>
-                    <View style={{flexDirection: 'row'}}>
-                      <Text style={style.HeadLine}>{'EMIAmount'}:</Text>
-                      <Text style={style.answerLine}>{item['emi_amount']}</Text>
-                    </View>
-                    <View style={{flexDirection: 'row'}}>
-                      <Text style={style.HeadLine}>{'EMIDate'}:</Text>
-                      <Text style={style.answerLine}>{item['emi_date']}</Text>
-                    </View>
-                    <View style={{flexDirection: 'row'}}>
-                      <Text style={style.HeadLine}>{'Overdue'}:</Text>
-                      <Text style={style.answerLine}>{item['overdue']}</Text>
-                    </View>
-                  </View>
-                  <View
-                    style={{
-                      flex: 1,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}>
-                    <Image
-                      source={images.arrow}
-                      style={{
-                        height: 26,
-                        width: 26,
-                        transform: [{rotate: '180deg'}],
-                      }}
-                    />
-                  </View>
-                </TouchableOpacity>
-              );
-            }}
+            renderItem={({item, index}) => (
+              <RenderItem item={item} index={index} />
+            )}
             ItemSeparatorComponent={() => <View style={{height: 20}} />}
             ListHeaderComponent={() => (
               <Text style={style.boxText}>{i18n.ActiveLoan}</Text>
@@ -168,6 +119,57 @@ const DashBoard = (props: Props) => {
     </SafeAreaView>
   );
 };
+
+const RenderItem = React.memo(({item}: any, index: any) => {
+  return (
+    <TouchableOpacity
+      key={index}
+      style={[style.ItemBox]}
+      onPress={() => {
+        navigationService.navigate(ScreenName.LoanStatus, {
+          loanid: item['loanid'],
+        });
+      }}>
+      <View style={{flex: 6}}>
+        <View style={{flexDirection: 'row'}}>
+          <Text style={style.HeadLine}>{'LAN'}:</Text>
+          <Text style={style.answerLine}>{item['loan_ac_no']}</Text>
+        </View>
+        <View style={{flexDirection: 'row'}}>
+          <Text style={style.HeadLine}>{'LoanAmount'}:</Text>
+          <Text style={style.answerLine}>{item['loan_amount']}</Text>
+        </View>
+        <View style={{flexDirection: 'row'}}>
+          <Text style={style.HeadLine}>{'EMIAmount'}:</Text>
+          <Text style={style.answerLine}>{item['emi_amount']}</Text>
+        </View>
+        <View style={{flexDirection: 'row'}}>
+          <Text style={style.HeadLine}>{'EMIDate'}:</Text>
+          <Text style={style.answerLine}>{item['emi_date']}</Text>
+        </View>
+        <View style={{flexDirection: 'row'}}>
+          <Text style={style.HeadLine}>{'Overdue'}:</Text>
+          <Text style={style.answerLine}>{item['overdue']}</Text>
+        </View>
+      </View>
+      <View
+        style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <Image
+          source={images.arrow}
+          style={{
+            height: 26,
+            width: 26,
+            transform: [{rotate: '180deg'}],
+          }}
+        />
+      </View>
+    </TouchableOpacity>
+  );
+});
 const style = StyleSheet.create({
   ItemBox: {
     padding: 15,

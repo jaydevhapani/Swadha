@@ -60,7 +60,7 @@ const CustomSidebarMenu = (props: any) => {
               {props?.navigation?.getState()?.index !== _index && (
                 <Image
                   source={getImageOfObject(_index)}
-                  style={{height: 20, width: 20}}
+                  style={{height: 20, width: 20, tintColor: colors.DarkBlue}}
                 />
               )}
 
@@ -88,12 +88,12 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
   Items: {
-    marginTop: 10,
+    marginTop: 20,
     paddingLeft: 20,
     flexDirection: 'row',
   },
   ItemText: {
-    fontSize: 16,
+    fontSize: 18,
     color: colors.ButtonColor,
     fontWeight: '800',
     letterSpacing: 0.5,

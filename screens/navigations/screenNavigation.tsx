@@ -21,6 +21,7 @@ import ApplyNewLoan from '../app/DrawerScreens/applyNewLoan';
 import PayOverDue from '../app/DrawerScreens/payOverDue';
 import PartPayment from '../app/DrawerScreens/partPayment';
 import images from '../assests/images';
+import MyLoan from '../app/DrawerScreens/myLoan';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -37,7 +38,14 @@ const DrawerNavigation = () => {
         name={ScreenName.DashBoard}
         component={DashBoard}
         options={{
-          drawerLabel: images.Menu,
+          drawerLabel: images.dashboard,
+        }}
+      />
+      <Drawer.Screen
+        name={ScreenName.MyLoan}
+        component={MyLoan}
+        options={{
+          drawerLabel: images.profile,
         }}
       />
       <Drawer.Screen
