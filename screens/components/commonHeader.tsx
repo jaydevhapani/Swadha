@@ -14,6 +14,8 @@ type Props = {
 
 const CommonHeader = (props: Props) => {
   const {userData} = useSelector(({loginSlice}) => loginSlice);
+  const {userProfileData} = useSelector(({commanSlice}) => commanSlice);
+
   return (
     <View style={styles.Box}>
       <View

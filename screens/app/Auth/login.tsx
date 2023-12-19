@@ -114,8 +114,6 @@ const Login = (props: Props) => {
                 onChange={(t: any) =>
                   setState(prev => ({...prev, ['mobileno']: t}))
                 }
-                inputViewStye={''}
-                textInputStyle={''}
                 maxLength={10}
                 keyboardType={'number-pad'}
               />

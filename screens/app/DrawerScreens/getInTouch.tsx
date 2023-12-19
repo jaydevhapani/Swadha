@@ -18,6 +18,7 @@ import i18n from '../../utilies/i18n';
 import CommonButton from '../../components/commonButton';
 import CommonAlertBox from '../../components/commonAlertBox';
 import {HEIGHT} from '../../utilies/constant';
+import CommanProfileBox from '../../components/commanProfileBox';
 
 type Props = {
   navigation: any;
@@ -40,7 +41,7 @@ const GetInTouch = (props: Props) => {
           <View style={[commanStyles.Container, commanStyles.pH10]}>
             <Text style={commanStyles.HeaderText}>Get in Touch</Text>
             <View>
-              <View style={styles.Profile} />
+              <CommanProfileBox />
               <TouchableOpacity
                 style={styles.absoluteButton}></TouchableOpacity>
             </View>
@@ -54,10 +55,7 @@ const GetInTouch = (props: Props) => {
                 title={'Email Address'}
                 placeHolder={'Enter Your Email'}
                 onChange={(t: any) => {}}
-                inputViewStye={''}
-                textInputStyle={''}
                 maxLength={10}
-                keyboardType={''}
               />
             </View>
             <View
@@ -70,8 +68,6 @@ const GetInTouch = (props: Props) => {
                 title={'Phone Number'}
                 placeHolder={'Phone Number'}
                 onChange={(t: any) => {}}
-                inputViewStye={''}
-                textInputStyle={''}
                 maxLength={10}
                 keyboardType={'number-pad'}
               />
@@ -86,10 +82,7 @@ const GetInTouch = (props: Props) => {
                 title={'Message'}
                 placeHolder={'Enter Your Message'}
                 onChange={(t: any) => {}}
-                inputViewStye={''}
-                textInputStyle={''}
                 maxLength={10}
-                keyboardType={''}
               />
             </View>
 

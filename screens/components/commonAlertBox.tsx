@@ -1,9 +1,11 @@
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Image} from 'react-native';
 import React from 'react';
 import colors from '../utilies/colors';
 
 type Props = {
   onPress: any;
+  discription?: any;
+  logo?: any;
 };
 
 const CommonAlertBox = (props: Props) => {
@@ -21,8 +23,28 @@ const CommonAlertBox = (props: Props) => {
         alignSelf: 'center',
         backgroundColor: colors.snowBlue,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-around',
       }}>
+      {props.logo && (
+        <View>
+          <Image source={props.logo} style={{height: 50, width: 50}} />
+        </View>
+      )}
+      {props.discription && (
+        <View>
+          <Text
+            style={{
+              fontSize: 18,
+              letterSpacing: 0.5,
+              alignSelf: 'center',
+              textAlign: 'center',
+              color: colors.colorGray,
+              fontWeight: '600',
+            }}>
+            {props.discription}
+          </Text>
+        </View>
+      )}
       <TouchableOpacity
         style={{
           height: 36,
@@ -33,7 +55,6 @@ const CommonAlertBox = (props: Props) => {
           justifyContent: 'center',
           backgroundColor: colors.colorRed,
           borderRadius: 100,
-          marginRight: 10,
         }}
         onPress={() => props.onPress && props.onPress()}>
         <Text style={{color: colors.colorWhite}}>{'Cancel'}</Text>

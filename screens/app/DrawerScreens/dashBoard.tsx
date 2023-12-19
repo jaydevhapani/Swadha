@@ -19,6 +19,7 @@ import {ScreenName} from '../../navigations/screenName';
 import {Post_Api} from '../../apiHelper/apiHelper';
 import apiName from '../../apiHelper/apiName';
 import {useDispatch} from 'react-redux';
+import {userProfileData} from '../../reduxConfig/slices/commanSlice';
 
 const dummyArray = [
   {
@@ -45,6 +46,7 @@ const DashBoard = (props: Props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    fetchProfileScreen();
     fetchActiveLoan();
   }, []);
 
@@ -56,18 +58,35 @@ const DashBoard = (props: Props) => {
     const Object = {
       token: global.accessToken,
       cid: global.cid,
-    };    
+    };
     try {
       await Post_Api(apiName.activeLoan, Object, dispatch)
         .then(json => {
           if (json) {
-            console.log(json);
             setActiveData(json.data);
           }
         })
         .catch(error => {});
     } catch (error) {}
   };
+
+  //fetchProfileScreen
+  const fetchProfileScreen = async () => {
+    const Object = {
+      token: global.accessToken,
+      cid: global.cid,
+    };
+    try {
+      await Post_Api(apiName.getProfile, Object, dispatch)
+        .then(json => {
+          if (json) {
+            dispatch(userProfileData(json?.data));
+          }
+        })
+        .catch(error => {});
+    } catch (error) {}
+  };
+
   return (
     <SafeAreaView style={[commanStyles.Container]}>
       <CommonHeader

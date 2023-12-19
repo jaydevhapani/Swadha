@@ -17,6 +17,8 @@ import CommonButton from '../../components/commonButton';
 import CommonAlertBox from '../../components/commonAlertBox';
 import {HEIGHT} from '../../utilies/constant';
 import CommanProfileBox from '../../components/commanProfileBox';
+import {useSelector} from 'react-redux';
+import images from '../../assests/images';
 
 type Props = {
   navigation: any;
@@ -24,6 +26,20 @@ type Props = {
 
 const MyProfile = (props: Props) => {
   const [isPopUp, setIsPopUp] = useState(true);
+  const {userProfileData} = useSelector(({commanSlice}) => commanSlice);
+
+  const [profileData, setProfileData] = useState({
+    name: userProfileData?.first_name + ' ' + userProfileData?.last_name,
+    email: userProfileData?.email,
+    phoneNumber: userProfileData?.contactno1,
+  });
+
+  //handleOnChangeText
+  const handleOnChangeText = (value: any, key: string) => {
+    setProfileData(prevalue => ({...prevalue, [key]: value}));
+  };
+  console.log('userProfileData :: ', userProfileData);
+
   return (
     <SafeAreaView style={commanStyles.Container}>
       <CommonHeader
@@ -42,7 +58,13 @@ const MyProfile = (props: Props) => {
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            <CommonAlertBox onPress={() => setIsPopUp(false)} />
+            <CommonAlertBox
+              onPress={() => setIsPopUp(false)}
+              discription={
+                'Kindly find your nearest branch\nand update your email, and\nconnect with the KYC.'
+              }
+              logo={images.applyLoan}
+            />
           </View>
         )}
         {!isPopUp && (
@@ -60,56 +82,43 @@ const MyProfile = (props: Props) => {
                 marginTop: 40,
               }}>
               <CommonTextInput
+                value={profileData.name}
                 title={'Name'}
                 placeHolder={'Enter Your Name'}
-                onChange={(t: any) => {}}
-                inputViewStye={''}
-                textInputStyle={''}
+                onChange={(t: any) => handleOnChangeText(t, 'name')}
                 maxLength={10}
-                keyboardType={''}
               />
             </View>
             <View
               style={{
                 alignSelf: 'center',
                 width: 350,
-                marginTop: 40,
-              }}>
-              <CommonTextInput
-                title={'Email Address'}
-                placeHolder={'Enter Your Email Address'}
-                onChange={(t: any) => {}}
-                inputViewStye={''}
-                textInputStyle={''}
-                maxLength={10}
-                keyboardType={''}
-              />
-            </View>
-            <View
-              style={{
-                alignSelf: 'center',
-                width: 350,
-                marginTop: 40,
-              }}>
-              <CommonTextInput
-                title={'Phone Number'}
-                placeHolder={'Phone Number'}
-                onChange={(t: any) => {}}
-                inputViewStye={''}
-                textInputStyle={''}
-                maxLength={10}
-                keyboardType={'number-pad'}
-              />
-            </View>
-            <View
-              style={{
                 marginTop: 20,
               }}>
-              <CommonButton
-                BUttonStyle={{height: 45}}
-                onPress={() => {}}
-                textStyle={''}
-                title={'Update'}
+              <CommonTextInput
+                value={profileData.email}
+                title={'Email Address'}
+                rightSide={true}
+                rightSideOnPress={() => {}}
+                placeHolder={'Enter Your Email Address'}
+                onChange={(t: any) => handleOnChangeText(t, 'email')}
+              />
+            </View>
+            <View
+              style={{
+                alignSelf: 'center',
+                width: 350,
+                marginTop: 20,
+              }}>
+              <CommonTextInput
+                value={profileData.phoneNumber}
+                title={'Phone Number'}
+                placeHolder={'Phone Number'}
+                rightSide={true}
+                rightSideOnPress={() => {}}
+                onChange={(t: any) => handleOnChangeText(t, 'phoneNumber')}
+                maxLength={10}
+                keyboardType={'number-pad'}
               />
             </View>
           </View>

@@ -49,8 +49,6 @@ const ApplyNewLoan = (props: Props) => {
                 title={'Amount Required'}
                 placeHolder={'10000'}
                 onChange={(t: any) => {}}
-                inputViewStye={''}
-                textInputStyle={''}
                 maxLength={10}
                 keyboardType={'number-pad'}
               />
@@ -65,8 +63,6 @@ const ApplyNewLoan = (props: Props) => {
                 title={'Purpose of Loan'}
                 placeHolder={''}
                 onChange={(t: any) => {}}
-                inputViewStye={''}
-                textInputStyle={''}
                 maxLength={10}
                 keyboardType={'number-pad'}
               />
@@ -81,10 +77,7 @@ const ApplyNewLoan = (props: Props) => {
                 title={'Urgency'}
                 placeHolder={''}
                 onChange={(t: any) => {}}
-                inputViewStye={''}
-                textInputStyle={''}
                 maxLength={10}
-                keyboardType={''}
               />
             </View>
 
@@ -98,10 +91,7 @@ const ApplyNewLoan = (props: Props) => {
                 title={'Message'}
                 placeHolder={'Hello, write your query here..'}
                 onChange={(t: any) => {}}
-                inputViewStye={''}
-                textInputStyle={''}
                 maxLength={10}
-                keyboardType={''}
               />
             </View>
 
