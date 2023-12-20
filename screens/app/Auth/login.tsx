@@ -122,7 +122,7 @@ const Login = (props: Props) => {
               <OTPInputView
                 style={{height: 100, alignSelf: 'center'}}
                 pinCount={4}
-                autoFocusOnLoad
+                autoFocusOnLoad={false}
                 codeInputFieldStyle={style.underlineStyleBase}
                 codeInputHighlightStyle={style.underlineStyleHighLighted}
                 onCodeFilled={(code: any) => {
