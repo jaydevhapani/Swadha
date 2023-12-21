@@ -18,4 +18,5 @@ export const ScreenName = {
   PayOverDue: 'PayOverDue',
   PartPayment: 'PartPayment',
   MyLoan: 'MyLoan',
+  PdfView: 'PdfViewer',
 };

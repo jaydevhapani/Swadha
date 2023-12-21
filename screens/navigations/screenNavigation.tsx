@@ -22,6 +22,7 @@ import PayOverDue from '../app/DrawerScreens/payOverDue';
 import PartPayment from '../app/DrawerScreens/partPayment';
 import images from '../assests/images';
 import MyLoan from '../app/DrawerScreens/myLoan';
+import PdfViewer from '../app/DrawerScreens/pdfViewer';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -108,6 +109,7 @@ export default function ScreenNavigation(): JSX.Element {
       <Stack.Screen name={ScreenName.EmiHolidays} component={EmiHolidays} />
       <Stack.Screen name={ScreenName.PayOverDue} component={PayOverDue} />
       <Stack.Screen name={ScreenName.PartPayment} component={PartPayment} />
+      <Stack.Screen name={ScreenName.PdfView} component={PdfViewer} />
     </Stack.Navigator>
   );
 }

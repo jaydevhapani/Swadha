@@ -11,12 +11,13 @@ import React, {useEffect, useState} from 'react';
 import commanStyles from '../../utilies/commanStyles';
 import CommonHeader from '../../components/commonHeader';
 import colors from '../../utilies/colors';
-import {WIDTH} from '../../utilies/constant';
+import {AlertBox, WIDTH} from '../../utilies/constant';
 import navigationService from '../../navigations/navigationService';
 import {ScreenName} from '../../navigations/screenName';
 import {Post_Api} from '../../apiHelper/apiHelper';
 import apiName from '../../apiHelper/apiName';
 import {useDispatch} from 'react-redux';
+import i18n from '../../utilies/i18n';
 
 type Props = {
   navigation: any;
@@ -213,8 +214,9 @@ const LoanStatus = (props: Props) => {
                       marginTop: 10,
                     }}
                     onPress={() => {
-                      navigationService.navigate(item.name, {
-                        loanid: loadnDetails.loanid,
+                      clickOnButton({
+                        item: item,
+                        loadnDetails,
                       });
                     }}>
                     <Text style={{color: colors.colorWhite}}>{item?.name}</Text>
@@ -227,6 +229,52 @@ const LoanStatus = (props: Props) => {
       </ScrollView>
     </SafeAreaView>
   );
+};
+
+const clickOnButton = ({item: item, loadnDetails: loadnDetails}) => {
+  if (item?.name == footerArray[0].name && loadnDetails.statement) {
+    navigationService.navigate(ScreenName.PdfView, {
+      pdf: loadnDetails.statement,
+    });
+  } else if (
+    item?.name == footerArray[1].name &&
+    loadnDetails.repayment_schedule
+  ) {
+    navigationService.navigate(ScreenName.PdfView, {
+      pdf: loadnDetails.repayment_schedule,
+    });
+  } else if (
+    item?.name == footerArray[2].name &&
+    loadnDetails.sanction_letter
+  ) {
+    navigationService.navigate(ScreenName.PdfView, {
+      pdf: loadnDetails.sanction_letter,
+    });
+  } else if (item?.name == footerArray[6].name && loadnDetails.noc_letter) {
+    navigationService.navigate(ScreenName.PdfView, {
+      pdf: loadnDetails.noc_letter,
+    });
+  } else if (
+    item?.name == footerArray[7].name &&
+    loadnDetails.insurance_policy
+  ) {
+    navigationService.navigate(ScreenName.PdfView, {
+      pdf: loadnDetails.insurance_policy,
+    });
+  } else if (
+    item?.name == footerArray[3].name ||
+    item?.name == footerArray[4].name ||
+    item?.name == footerArray[5].name
+  ) {
+    navigationService.navigate(item.name, {
+      loanid: loadnDetails.loanid,
+    });
+  } else {
+    AlertBox({
+      Title: i18n.Alert,
+      Message: 'No Pdf Avaialble',
+    });
+  }
 };
 
 const style = StyleSheet.create({
