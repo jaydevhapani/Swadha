@@ -17,14 +17,75 @@ import CommonTextInput from '../../components/commonTextInput';
 import i18n from '../../utilies/i18n';
 import CommonButton from '../../components/commonButton';
 import CommonAlertBox from '../../components/commonAlertBox';
-import {HEIGHT} from '../../utilies/constant';
+import {AlertBox, HEIGHT} from '../../utilies/constant';
 import CommanProfileBox from '../../components/commanProfileBox';
+import {useDispatch} from 'react-redux';
+import { Post_Api } from '../../apiHelper/apiHelper';
+import apiName from '../../apiHelper/apiName';
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
+import navigationService from '../../navigations/navigationService';
 
 type Props = {
   navigation: any;
 };
 
 const GetInTouch = (props: Props) => {
+  const dispatch = useDispatch();
+
+  const [getTouch, setGetTouch] = useState({
+    token: global.accessToken,
+    email: '',
+    mobile: '',
+    message: '',
+  });
+
+  const handleText = (value: any, key: string) => {
+    setGetTouch(prevalue => ({...prevalue, [key]: value}));
+  };
+
+  const onSendMessage = async() => {
+    if (getTouch.email.length == 0) {
+      AlertBox({
+        Message : 'Please enter your email address.',
+        Title : i18n.Alert
+      })
+    }else if (getTouch.mobile.length ==0) {
+      AlertBox({
+        Message : 'Please enter your mobile.',
+        Title : i18n.Alert
+      })
+    }
+    else  if (getTouch.mobile.length > 10) {
+      AlertBox({
+        Message : 'Please enter your valid mobile.',
+        Title : i18n.Alert
+      })
+    }
+    else if (getTouch.message.length == 0) {
+      AlertBox({
+        Message : 'Please enter your message.',
+        Title : i18n.Alert
+      })
+    }
+    else {
+      try {
+        await Post_Api(apiName.getInTouch, getTouch, dispatch)
+          .then(json => {
+            if (json) {
+              if (json) {
+               AlertBox({
+                Message : 'Request successfuly submitted.',
+                Title : i18n.Alert,
+               })
+              }
+            }
+          })
+          .catch(error => {});
+      } catch (error) {}
+    }
+ 
+  }
+
   return (
     <SafeAreaView style={commanStyles.Container}>
       <CommonHeader
@@ -52,10 +113,10 @@ const GetInTouch = (props: Props) => {
                 marginTop: 40,
               }}>
               <CommonTextInput
+                value={getTouch.email}
                 title={'Email Address'}
                 placeHolder={'Enter Your Email'}
-                onChange={(t: any) => {}}
-                maxLength={10}
+                onChange={(t: any) => handleText(t, 'email')}
               />
             </View>
             <View
@@ -65,9 +126,10 @@ const GetInTouch = (props: Props) => {
                 marginTop: 40,
               }}>
               <CommonTextInput
+                value={getTouch.mobile}
                 title={'Phone Number'}
                 placeHolder={'Phone Number'}
-                onChange={(t: any) => {}}
+                onChange={(t: any) => handleText(t, 'mobile')}
                 maxLength={10}
                 keyboardType={'number-pad'}
               />
@@ -79,10 +141,10 @@ const GetInTouch = (props: Props) => {
                 marginTop: 40,
               }}>
               <CommonTextInput
+                value={getTouch.message}
                 title={'Message'}
                 placeHolder={'Enter Your Message'}
-                onChange={(t: any) => {}}
-                maxLength={10}
+                onChange={(t: any) => handleText(t, 'message')}
               />
             </View>
 
@@ -96,7 +158,7 @@ const GetInTouch = (props: Props) => {
                   width: 180,
                   backgroundColor: colors.colorRed,
                 }}
-                onPress={() => {}}
+                onPress={() => onSendMessage()}
                 textStyle={''}
                 title={'Send Message'}
               />

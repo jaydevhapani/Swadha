@@ -25,7 +25,7 @@ type Props = {
 };
 
 const MyProfile = (props: Props) => {
-  const [isPopUp, setIsPopUp] = useState(true);
+  const [isPopUp, setIsPopUp] = useState(false);
   const {userProfileData} = useSelector(({commanSlice}) => commanSlice);
 
   const [profileData, setProfileData] = useState({
@@ -63,7 +63,7 @@ const MyProfile = (props: Props) => {
               discription={
                 'Kindly find your nearest branch\nand update your email, and\nconnect with the KYC.'
               }
-              logo={images.applyLoan}
+              logo={images.tickMark}
             />
           </View>
         )}
@@ -99,7 +99,7 @@ const MyProfile = (props: Props) => {
                 value={profileData.email}
                 title={'Email Address'}
                 rightSide={true}
-                rightSideOnPress={() => {}}
+                rightSideOnPress={() => setIsPopUp(!isPopUp)}
                 placeHolder={'Enter Your Email Address'}
                 onChange={(t: any) => handleOnChangeText(t, 'email')}
               />
@@ -115,7 +115,7 @@ const MyProfile = (props: Props) => {
                 title={'Phone Number'}
                 placeHolder={'Phone Number'}
                 rightSide={true}
-                rightSideOnPress={() => {}}
+                rightSideOnPress={() => setIsPopUp(!isPopUp)}
                 onChange={(t: any) => handleOnChangeText(t, 'phoneNumber')}
                 maxLength={10}
                 keyboardType={'number-pad'}

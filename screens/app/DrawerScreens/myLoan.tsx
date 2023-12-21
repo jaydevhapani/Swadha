@@ -21,6 +21,7 @@ import {Post_Api} from '../../apiHelper/apiHelper';
 import apiName from '../../apiHelper/apiName';
 import {useDispatch} from 'react-redux';
 import {userProfileData} from '../../reduxConfig/slices/commanSlice';
+import { useIsFocused } from '@react-navigation/native';
 
 
 type Props = {
@@ -29,10 +30,12 @@ type Props = {
 
 const MyLoan = (props: Props) => {
   const dispatch = useDispatch();
+  const focus  = useIsFocused();
+
 
   useEffect(() => {
     fetchActiveLoan();
-  }, []);
+  }, [focus]);
 
   //State
   const [loanData, setLoanData] = useState({
@@ -108,7 +111,11 @@ const MyLoan = (props: Props) => {
 
 const RenderItem = React.memo(({item}: any, index: any) => {
   return (
-    <TouchableOpacity key={index} style={[style.ItemBox]} disabled>
+    <TouchableOpacity key={index} style={[style.ItemBox]} onPress={() => {
+      navigationService.navigate(ScreenName.LoanStatus, {
+        loanid: item['loanid'],
+      });
+    }}>
       <View style={{flex: 6}}>
         <View style={{flexDirection: 'row'}}>
           <Text style={style.HeadLine}>{'LAN'}:</Text>
@@ -130,6 +137,21 @@ const RenderItem = React.memo(({item}: any, index: any) => {
           <Text style={style.HeadLine}>{'Overdue'}:</Text>
           <Text style={style.answerLine}>{item['overdue']}</Text>
         </View>
+      </View>
+      <View
+        style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <Image
+          source={images.arrow}
+          style={{
+            height: 26,
+            width: 26,
+            transform: [{rotate: '180deg'}],
+          }}
+        />
       </View>
     </TouchableOpacity>
   );

@@ -377,6 +377,8 @@ PODS:
     - glog
   - react-native-blob-util (0.19.6):
     - React-Core
+  - react-native-date-picker (4.3.5):
+    - React-Core
   - react-native-netinfo (11.1.1):
     - React-Core
   - react-native-pdf (6.7.3):
@@ -597,6 +599,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-blob-util (from `../node_modules/react-native-blob-util`)
+  - react-native-date-picker (from `../node_modules/react-native-date-picker`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-pdf (from `../node_modules/react-native-pdf`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -691,6 +694,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/logger"
   react-native-blob-util:
     :path: "../node_modules/react-native-blob-util"
+  react-native-date-picker:
+    :path: "../node_modules/react-native-date-picker"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-pdf:
@@ -785,6 +790,7 @@ SPEC CHECKSUMS:
   React-jsinspector: aef73cbd43b70675f572214d10fa438c89bf11ba
   React-logger: 2e4aee3e11b3ec4fa6cfd8004610bbb3b8d6cca4
   react-native-blob-util: d8fa1a7f726867907a8e43163fdd8b441d4489ea
+  react-native-date-picker: 90d1d60802a20085125657940b944f2bb4e5c113
   react-native-netinfo: b0ae7d0f76302eaf249de7b2b7add297e155b1d0
   react-native-pdf: b4ca3d37a9a86d9165287741c8b2ef4d8940c00e
   react-native-safe-area-context: 7aa8e6d9d0f3100a820efb1a98af68aa747f9284

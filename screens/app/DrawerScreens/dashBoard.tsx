@@ -20,6 +20,7 @@ import {Post_Api} from '../../apiHelper/apiHelper';
 import apiName from '../../apiHelper/apiName';
 import {useDispatch} from 'react-redux';
 import {userProfileData} from '../../reduxConfig/slices/commanSlice';
+import { useIsFocused } from '@react-navigation/native';
 
 const dummyArray = [
   {
@@ -44,11 +45,11 @@ type Props = {
 
 const DashBoard = (props: Props) => {
   const dispatch = useDispatch();
-
+  const focus  = useIsFocused();
   useEffect(() => {
     fetchProfileScreen();
     fetchActiveLoan();
-  }, []);
+  }, [focus]);
 
   //State
   const [activeData, setActiveData] = useState([]);
@@ -128,6 +129,7 @@ const RenderItem = React.memo(({item}: any, index: any) => {
       onPress={() => {
         navigationService.navigate(ScreenName.LoanStatus, {
           loanid: item['loanid'],
+          lan : item['loan_ac_no'],
         });
       }}>
       <View style={{flex: 6}}>

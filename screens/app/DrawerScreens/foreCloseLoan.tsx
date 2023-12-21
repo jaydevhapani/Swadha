@@ -7,27 +7,57 @@ import {
   TextInput,
   StyleSheet,
   Image,
+  TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import commanStyles from '../../utilies/commanStyles';
 import CommonHeader from '../../components/commonHeader';
 import {useDrawerStatus} from '@react-navigation/drawer';
 import CommonButton from '../../components/commonButton';
 import colors from '../../utilies/colors';
 import images from '../../assests/images';
+import DatePicker from 'react-native-date-picker';
+import {Post_Api} from '../../apiHelper/apiHelper';
+import {useDispatch} from 'react-redux';
+import apiName from '../../apiHelper/apiName';
+import { AlertBox } from '../../utilies/constant';
+import i18n from '../../utilies/i18n';
+import navigationService from '../../navigations/navigationService';
 
 type Props = {
   navigation: any;
+  route: any;
 };
 
-const dummyArray = [
-  {
-    LAN: '48734687932493278',
-    OutstandingAmount: 13000,
-  },
-];
-
 const ForeCloseLoan = (props: Props) => {
+  const dispatch = useDispatch();
+  const [datepickeropen, setDatepicker] = useState(false);
+  const [date, setDate] = useState(new Date());
+
+  const onSubmitRequest = async () => {
+    const Object = {
+      token: global.accessToken,
+      loanid: props.route.params.loadnDetails.loadnDetails.loanid,
+      date: date.getFullYear() +
+      '-' +
+      (date.getMonth() + 1) +
+      '-' +
+      date.getDate(),
+    };
+    try {
+      await Post_Api(apiName.foreCloseRequest, Object, dispatch)
+        .then(json => {
+          if (json) {
+            AlertBox({
+              Message : 'Request successfuly submitted.',
+              Title : i18n.Alert,
+              onOkPress: () => navigationService.goBack()
+            })
+          }
+        })
+        .catch(error => {});
+    } catch (error) {}
+  };
   return (
     <SafeAreaView style={commanStyles.Container}>
       <CommonHeader
@@ -42,38 +72,31 @@ const ForeCloseLoan = (props: Props) => {
         <View style={[commanStyles.Container, commanStyles.pH10]}>
           <Text style={commanStyles.HeaderText}>Forceclose Loan</Text>
           <View style={{marginTop: 40}}>
-            <FlatList
-              data={dummyArray}
-              style={{paddingBottom: 10}}
-              renderItem={({item, index}) => {
-                return (
-                  <View style={style.Box}>
-                    <View style={{flex: 1}}>
-                      <View style={{flexDirection: 'row'}}>
-                        <Text style={style.HeadLine}>
-                          {Object.keys(item)[0]}:
-                        </Text>
-                        <Text style={style.answerLine}>{item.LAN}</Text>
-                      </View>
-                      <View style={{flexDirection: 'row'}}>
-                        <Text style={style.HeadLine}>
-                          {Object.keys(item)[1]}:
-                        </Text>
-                        <Text style={style.answerLine}>
-                          {item.OutstandingAmount}
-                        </Text>
-                      </View>
-                    </View>
-                  </View>
-                );
-              }}
-              ItemSeparatorComponent={() => <View style={{height: 20}} />}
-            />
+            <View style={style.Box}>
+              <View style={{flex: 1}}>
+                <View style={{flexDirection: 'row'}}>
+                  <Text style={style.HeadLine}>{'LAN'}:</Text>
+                  <Text style={style.answerLine}>
+                    {props.route.params.loadnDetails.lan}
+                  </Text>
+                </View>
+                <View style={{flexDirection: 'row'}}>
+                  <Text style={style.HeadLine}>{'Current Outstanding'}:</Text>
+                  <Text style={style.answerLine}>
+                    {
+                      props.route.params.loadnDetails.loadnDetails
+                        .outstanding_amount
+                    }
+                  </Text>
+                </View>
+              </View>
+            </View>
             <View style={{marginVertical: 20}}>
               <Text style={style.boxText}>Forceclose Date</Text>
             </View>
             <View style={style.Box2}>
-              <View
+              <TouchableOpacity
+                onPress={() => setDatepicker(!datepickeropen)}
                 style={[
                   style.Box2,
                   {
@@ -100,7 +123,11 @@ const ForeCloseLoan = (props: Props) => {
                       color: colors.colorBlack,
                       alignSelf: 'center',
                     }}>
-                    Select date
+                    {date.getDate() +
+                      '/' +
+                      (date.getMonth() + 1) +
+                      '/' +
+                      date.getFullYear()}
                   </Text>
                 </View>
                 <Image
@@ -110,7 +137,7 @@ const ForeCloseLoan = (props: Props) => {
                     width: 30,
                   }}
                 />
-              </View>
+              </TouchableOpacity>
             </View>
             <CommonButton
               BUttonStyle={{
@@ -121,14 +148,33 @@ const ForeCloseLoan = (props: Props) => {
               }}
               textStyle={''}
               title={'Submit Request'}
-              onPress={() => {}}
+              onPress={() => onSubmitRequest()}
             />
-             <View>
-              <Text style={[style.boxText, {color : colors.ButtonColor}]}>Thankyou for your message, our team will get back to you soon!</Text>
+            <View>
+              <Text
+                style={[
+                  style.boxText,
+                  {color: colors.ButtonColor, alignSelf: 'center'},
+                ]}>
+                Thankyou for your message, our team will get back to you soon!
+              </Text>
             </View>
           </View>
         </View>
       </ScrollView>
+      <DatePicker
+        modal
+        open={datepickeropen}
+        date={date}
+        onConfirm={date => {
+          setDatepicker(false);
+          setDate(date);
+        }}
+        onCancel={() => {
+          setDatepicker(false);
+        }}
+        mode="date"
+      />
     </SafeAreaView>
   );
 };

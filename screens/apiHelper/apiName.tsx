@@ -8,4 +8,7 @@ export default {
   holyday: BASE_URL + 'getHolidayEMI',
   getProfile: BASE_URL + 'getProfile',
   myLoans: BASE_URL + 'getMyLoans',
+  getInTouch : BASE_URL + 'getInTouch',
+  getMandateDetail : BASE_URL + 'getMandateDetail',
+  applyNewLoan : BASE_URL + 'applyNewLoan',
 };

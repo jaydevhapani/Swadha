@@ -153,6 +153,7 @@ const AdvanceEmi = (props: Props) => {
                   </Text>
                 </View>
                 <TextInput
+                  value={advanceEmi?.payable_amount}
                   style={{
                     borderBottomColor: colors.lightBlack,
                     borderBottomWidth: 0.5,
@@ -161,6 +162,7 @@ const AdvanceEmi = (props: Props) => {
                   }}
                   placeholder="amount"
                   keyboardType="number-pad"
+                  editable={false}
                 />
               </View>
             </View>

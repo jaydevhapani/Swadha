@@ -27,7 +27,7 @@ const CommonAlertBox = (props: Props) => {
       }}>
       {props.logo && (
         <View>
-          <Image source={props.logo} style={{height: 50, width: 50}} />
+          <Image source={props.logo} style={{height: 90, width: 90}} />
         </View>
       )}
       {props.discription && (

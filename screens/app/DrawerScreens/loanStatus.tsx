@@ -18,6 +18,7 @@ import {Post_Api} from '../../apiHelper/apiHelper';
 import apiName from '../../apiHelper/apiName';
 import {useDispatch} from 'react-redux';
 import i18n from '../../utilies/i18n';
+import Moment from 'moment';
 
 type Props = {
   navigation: any;
@@ -63,6 +64,8 @@ const LoanStatus = (props: Props) => {
     start_date: '',
     end_date: '',
     statement: '',
+    tenure: '',
+    tenure_paid: 15,
     repayment_schedule: '',
     sanction_letter: '',
     noc_letter: '',
@@ -92,7 +95,7 @@ const LoanStatus = (props: Props) => {
         .catch(error => {});
     } catch (error) {}
   };
-
+  const date = new Date();
   return (
     <SafeAreaView style={commanStyles.Container}>
       <CommonHeader
@@ -103,7 +106,7 @@ const LoanStatus = (props: Props) => {
       <ScrollView style={commanStyles.Container}>
         <View style={[commanStyles.Container, commanStyles.pH10]}>
           <Text style={style.statusText}>
-            {'Account Status as on 08 JUL 2023'}
+            {'Account Status as on ' + Moment(date).format('DD MMM YYYY')}
           </Text>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <View style={[style.Box1, style.contentWidth]}>
@@ -161,6 +164,41 @@ const LoanStatus = (props: Props) => {
               </TouchableOpacity>
             </View>
           </View>
+          <View
+            style={[
+              style.Box1,
+              {
+                marginTop: 20,
+                alignItems: 'flex-start',
+                justifyContent: 'space-between',
+                paddingVertical: 12,
+                paddingHorizontal: 10,
+              },
+            ]}>
+            <Text style={style.BoxText}>
+              {'Tenure: ' +
+                loadnDetails.tenure +
+                '/' +
+                loadnDetails.tenure_paid +
+                'EMI Paid'}
+            </Text>
+            <View
+              style={{
+                height: 14,
+                width: '100%',
+                backgroundColor: colors.grey4,
+                borderRadius: 10,
+              }}>
+              <View
+                style={{
+                  height: 14,
+                  width: `${loadnDetails.tenure - loadnDetails.tenure_paid}%`,
+                  backgroundColor: colors.LowBlue,
+                  borderRadius: 10,
+                }}
+              />
+            </View>
+          </View>
           {/* {//!Tenure EMI paid calculation is on pending.........} */}
           <View
             style={{
@@ -216,7 +254,8 @@ const LoanStatus = (props: Props) => {
                     onPress={() => {
                       clickOnButton({
                         item: item,
-                        loadnDetails,
+                        loadnDetails: loadnDetails,
+                        lan: props.route.params.lan,
                       });
                     }}>
                     <Text style={{color: colors.colorWhite}}>{item?.name}</Text>
@@ -231,7 +270,7 @@ const LoanStatus = (props: Props) => {
   );
 };
 
-const clickOnButton = ({item: item, loadnDetails: loadnDetails}) => {
+const clickOnButton = ({item: item, loadnDetails: loadnDetails, lan: lan}) => {
   if (item?.name == footerArray[0].name && loadnDetails.statement) {
     navigationService.navigate(ScreenName.PdfView, {
       pdf: loadnDetails.statement,
@@ -263,11 +302,14 @@ const clickOnButton = ({item: item, loadnDetails: loadnDetails}) => {
     });
   } else if (
     item?.name == footerArray[3].name ||
-    item?.name == footerArray[4].name ||
     item?.name == footerArray[5].name
   ) {
     navigationService.navigate(item.name, {
       loanid: loadnDetails.loanid,
+    });
+  } else if (item?.name == footerArray[4].name) {
+    navigationService.navigate(item.name, {
+      loadnDetails: {loadnDetails, lan: lan},
     });
   } else {
     AlertBox({
@@ -291,6 +333,12 @@ const style = StyleSheet.create({
     fontWeight: '600',
     letterSpacing: 1,
   },
+  BoxText: {
+    color: colors.colorBlack,
+    fontSize: 15,
+    fontWeight: '800',
+    letterSpacing: 1,
+  },
   BoxAnswer: {
     color: colors.gray3,
     fontSize: 20,
@@ -301,7 +349,7 @@ const style = StyleSheet.create({
   Box1: {
     height: 80,
     borderRadius: 10,
-    backgroundColor: colors.grey4,
+    backgroundColor: colors.colorWhiteShade,
     shadowColor: colors.lightBlack,
     shadowOffset: {width: -2, height: 4},
     shadowOpacity: 0.2,

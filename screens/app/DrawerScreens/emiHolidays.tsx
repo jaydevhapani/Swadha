@@ -24,7 +24,7 @@ type Props = {
 
 const EmiHolidays = (props: Props) => {
   const dispatch = useDispatch();
-
+  const [isTickMark, setTickMark] = useState(false);
   const [holyDay, setHoyDay] = useState({
     loanid: null,
     loan_ac_no: null,
@@ -89,15 +89,21 @@ const EmiHolidays = (props: Props) => {
             }}>
             <View style={{flexDirection: 'row'}}>
               <Text style={style.HeadLine}>{'LAN'}:</Text>
-              <Text style={style.answerLine}>{holyDay.loan_ac_no ? holyDay.loan_ac_no : ''}</Text>
+              <Text style={style.answerLine}>
+                {holyDay.loan_ac_no ? holyDay.loan_ac_no : ''}
+              </Text>
             </View>
             <View style={{flexDirection: 'row'}}>
               <Text style={style.HeadLine}>{'EMI Amount'}:</Text>
-              <Text style={style.answerLine}>{holyDay.emi_amount ? holyDay.emi_amount : ''}</Text>
+              <Text style={style.answerLine}>
+                {holyDay.emi_amount ? holyDay.emi_amount : ''}
+              </Text>
             </View>
             <View style={{flexDirection: 'row'}}>
               <Text style={style.HeadLine}>{'EMI Date'}:</Text>
-              <Text style={style.answerLine}>{holyDay.emi_date ? holyDay.emi_date : ''}</Text>
+              <Text style={style.answerLine}>
+                {holyDay.emi_date ? holyDay.emi_date : ''}
+              </Text>
             </View>
             <View
               style={{
@@ -110,21 +116,37 @@ const EmiHolidays = (props: Props) => {
             <View style={style.Box}>
               <Text style={style.boxText}>Terms of Holidays EMI</Text>
               <Text style={[style.boxText, {color: colors.gray1}]}>
-                {'1.'+holyDay.terms[1] +
+                {'1.' +
+                  holyDay.terms[1] +
                   '\n' +
-                  '2.'+holyDay.terms[2] +
+                  '2.' +
+                  holyDay.terms[2] +
                   '\n' +
-                  '3.'+holyDay.terms[3]}
+                  '3.' +
+                  holyDay.terms[3]}
               </Text>
             </View>
             <View style={{marginVertical: 30, flexDirection: 'row'}}>
-              <View
+              <TouchableOpacity
                 style={{
                   height: 18,
                   width: 18,
                   marginRight: 10,
+                  alignItems  :'center',
+                  justifyContent : 'center',
                   backgroundColor: colors.colorWhite,
-                }}></View>
+                }}
+                onPress={() => setTickMark(!isTickMark)}>
+                {isTickMark && (
+                  <View
+                    style={{
+                      height: 15,
+                      width: 15,
+                      backgroundColor: colors.LowBlue,
+                    }}
+                  />
+                )}
+              </TouchableOpacity>
               <Text>I agree terms of EMI Holidays and pay</Text>
             </View>
             <View style={style.Box2}>
@@ -164,7 +186,7 @@ const EmiHolidays = (props: Props) => {
                     color: colors.colorBlack,
                     alignSelf: 'center',
                   }}>
-                  3600
+                  {holyDay.payable_amount}
                 </Text>
               </View>
             </View>
