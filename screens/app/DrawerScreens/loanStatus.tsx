@@ -65,7 +65,7 @@ const LoanStatus = (props: Props) => {
     end_date: '',
     statement: '',
     tenure: '',
-    tenure_paid: 15,
+    tenure_paid: '',
     repayment_schedule: '',
     sanction_letter: '',
     noc_letter: '',
