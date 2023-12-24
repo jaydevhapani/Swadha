@@ -11,4 +11,8 @@ export default {
   getInTouch : BASE_URL + 'getInTouch',
   getMandateDetail : BASE_URL + 'getMandateDetail',
   applyNewLoan : BASE_URL + 'applyNewLoan',
+  getNotifications  : BASE_URL + 'getNotifications',
+  getFaqs : BASE_URL + 'getFaqs',
+  getPrivacyPolicy : BASE_URL + 'getPrivacyPolicy',
+  foreCloseRequest : BASE_URL + 'foreCloseRequest',
 };

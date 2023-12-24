@@ -19,4 +19,7 @@ export const ScreenName = {
   PartPayment: 'PartPayment',
   MyLoan: 'MyLoan',
   PdfView: 'PdfViewer',
+  Notification : 'Notification',
+  Faq : 'Faq',
+  Privacy : 'Privacy Policy'
 };

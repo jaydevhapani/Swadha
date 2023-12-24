@@ -20,5 +20,6 @@ export default {
   accountDetails: require('./images/account-details.png'),
   aboutUs: require('./images/about-us.png'),
   dashboard: require('./images/dashboard.png'),
-  tickMark : require('./images/tickmark.png')
+  tickMark : require('./images/tickmark.png'),
+  down : require('./images/down.png')
 };

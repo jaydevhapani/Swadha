@@ -40,33 +40,83 @@ const CustomSidebarMenu = (props: any) => {
         </View>
         <View style={{height: 30}} />
         {props?.state?.routes?.map((_item: any, _index: number) => {
-          return (
-            <TouchableOpacity
-              key={_index}
-              style={[
-                styles.Items,
-                props?.navigation?.getState()?.index == _index && {
-                  borderTopWidth: 0.5,
-                  borderTopColor: colors.colorBlack,
-                  borderBottomWidth: 0.5,
-                  borderBottomColor: colors.colorBlack,
-                  paddingTop: 8,
-                  paddingBottom: 8,
-                },
-              ]}
-              onPress={() => {
-                props?.navigation?.navigate(_item.name);
-              }}>
-              {props?.navigation?.getState()?.index !== _index && (
-                <Image
-                  source={getImageOfObject(_index)}
-                  style={{height: 20, width: 20, tintColor: colors.DarkBlue}}
-                />
-              )}
+          if (_index <= 6) {
+            return (
+              <View key={_index}>
+                <TouchableOpacity
+                  style={[
+                    styles.Items,
+                    props?.navigation?.getState()?.index == _index && {
+                      borderTopWidth: 0.5,
+                      borderTopColor: colors.colorBlack,
+                      borderBottomWidth: 0.5,
+                      borderBottomColor: colors.colorBlack,
+                      paddingTop: 8,
+                      paddingBottom: 8,
+                    },
+                  ]}
+                  onPress={() => {
+                    props?.navigation?.navigate(_item.name);
+                  }}>
+                  {props?.navigation?.getState()?.index !== _index && (
+                    <Image
+                      source={getImageOfObject(_index)}
+                      style={{
+                        height: 20,
+                        width: 20,
+                        tintColor: colors.DarkBlue,
+                      }}
+                    />
+                  )}
 
-              <Text style={styles.ItemText}>{_item.name}</Text>
-            </TouchableOpacity>
-          );
+                  <Text style={styles.ItemText}>{_item.name}</Text>
+                </TouchableOpacity>
+              </View>
+            );
+          }
+        })}
+        <View
+          style={{
+            width: '100%',
+            borderWidth: 1,
+            borderColor: colors.lightGray,
+            marginVertical: 20,
+          }}
+        />
+        {props?.state?.routes?.map((_item: any, _index: number) => {
+          if (_index >= 7) {
+            return (
+              <View key={_index}>
+                <TouchableOpacity
+                  style={[
+                    styles.Items,
+                    props?.navigation?.getState()?.index == _index && {
+                      borderTopWidth: 0.5,
+                      borderTopColor: colors.colorBlack,
+                      borderBottomWidth: 0.5,
+                      borderBottomColor: colors.colorBlack,
+                      paddingTop: 8,
+                      paddingBottom: 8,
+                    },
+                  ]}
+                  onPress={() => {
+                    props?.navigation?.navigate(_item.name);
+                  }}>
+                  {props?.navigation?.getState()?.index !== _index && (
+                    <Image
+                      source={getImageOfObject(_index)}
+                      style={{
+                        height: 20,
+                        width: 20,
+                        tintColor: colors.DarkBlue,
+                      }}
+                    />
+                  )}
+                  <Text style={styles.ItemText}>{_item.name}</Text>
+                </TouchableOpacity>
+              </View>
+            );
+          }
         })}
       </DrawerContentScrollView>
     </SafeAreaView>

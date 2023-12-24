@@ -23,6 +23,9 @@ import PartPayment from '../app/DrawerScreens/partPayment';
 import images from '../assests/images';
 import MyLoan from '../app/DrawerScreens/myLoan';
 import PdfViewer from '../app/DrawerScreens/pdfViewer';
+import Notification from '../app/DrawerScreens/notification';
+import Faq from '../app/DrawerScreens/faq';
+import PrivacyPolicy from '../app/DrawerScreens/privacy';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -71,17 +74,39 @@ const DrawerNavigation = () => {
         }}
       />
       <Drawer.Screen
-        name={ScreenName.GetInTouch}
-        component={GetInTouch}
-        options={{
-          drawerLabel: images.contact,
-        }}
-      />
-      <Drawer.Screen
         name={ScreenName.ApplyNewLoan}
         component={ApplyNewLoan}
         options={{
           drawerLabel: images.applyLoan,
+        }}
+      />
+      <Drawer.Screen
+        name={ScreenName.Notification}
+        component={Notification}
+        options={{
+          drawerLabel: images.notification,
+        }}
+      />
+      {/* set Line on Other Drawer SCreen */}
+      <Drawer.Screen
+        name={ScreenName.Faq}
+        component={Faq}
+        options={{
+          drawerLabel: images.faq,
+        }}
+      />
+      <Drawer.Screen
+        name={ScreenName.Privacy}
+        component={PrivacyPolicy}
+        options={{
+          drawerLabel: images.trd,
+        }}
+      />
+      <Drawer.Screen
+        name={ScreenName.GetInTouch}
+        component={GetInTouch}
+        options={{
+          drawerLabel: images.contact,
         }}
       />
     </Drawer.Navigator>
