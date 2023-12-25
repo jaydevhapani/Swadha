@@ -52,77 +52,68 @@ const MyProfile = (props: Props) => {
         keyboardShouldPersistTaps={'handled'}
         style={[{flex: 1}]}>
         {isPopUp && (
+          <CommonAlertBox
+            onPress={() => setIsPopUp(false)}
+            discription={
+              'Kindly find your nearest branch\nand update your email, and\nconnect with the KYC.'
+            }
+            logo={images.tickMark}
+            buttonName={'Cancel'}
+          />
+        )}
+        <View style={[commanStyles.Container, commanStyles.pH10]}>
+          <Text style={commanStyles.HeaderText}>My Profile</Text>
+          <View>
+            <CommanProfileBox />
+            <TouchableOpacity style={styles.absoluteButton}></TouchableOpacity>
+          </View>
           <View
             style={{
-              height: HEIGHT,
-              alignItems: 'center',
-              justifyContent: 'center',
+              alignSelf: 'center',
+              width: 350,
+              marginTop: 40,
             }}>
-            <CommonAlertBox
-              onPress={() => setIsPopUp(false)}
-              discription={
-                'Kindly find your nearest branch\nand update your email, and\nconnect with the KYC.'
-              }
-              logo={images.tickMark}
+            <CommonTextInput
+              value={profileData.name}
+              title={'Name'}
+              placeHolder={'Enter Your Name'}
+              onChange={(t: any) => handleOnChangeText(t, 'name')}
+              maxLength={10}
             />
           </View>
-        )}
-        {!isPopUp && (
-          <View style={[commanStyles.Container, commanStyles.pH10]}>
-            <Text style={commanStyles.HeaderText}>My Profile</Text>
-            <View>
-              <CommanProfileBox />
-              <TouchableOpacity
-                style={styles.absoluteButton}></TouchableOpacity>
-            </View>
-            <View
-              style={{
-                alignSelf: 'center',
-                width: 350,
-                marginTop: 40,
-              }}>
-              <CommonTextInput
-                value={profileData.name}
-                title={'Name'}
-                placeHolder={'Enter Your Name'}
-                onChange={(t: any) => handleOnChangeText(t, 'name')}
-                maxLength={10}
-              />
-            </View>
-            <View
-              style={{
-                alignSelf: 'center',
-                width: 350,
-                marginTop: 20,
-              }}>
-              <CommonTextInput
-                value={profileData.email}
-                title={'Email Address'}
-                rightSide={true}
-                rightSideOnPress={() => setIsPopUp(!isPopUp)}
-                placeHolder={'Enter Your Email Address'}
-                onChange={(t: any) => handleOnChangeText(t, 'email')}
-              />
-            </View>
-            <View
-              style={{
-                alignSelf: 'center',
-                width: 350,
-                marginTop: 20,
-              }}>
-              <CommonTextInput
-                value={profileData.phoneNumber}
-                title={'Phone Number'}
-                placeHolder={'Phone Number'}
-                rightSide={true}
-                rightSideOnPress={() => setIsPopUp(!isPopUp)}
-                onChange={(t: any) => handleOnChangeText(t, 'phoneNumber')}
-                maxLength={10}
-                keyboardType={'number-pad'}
-              />
-            </View>
+          <View
+            style={{
+              alignSelf: 'center',
+              width: 350,
+              marginTop: 20,
+            }}>
+            <CommonTextInput
+              value={profileData.email}
+              title={'Email Address'}
+              rightSide={true}
+              rightSideOnPress={() => setIsPopUp(!isPopUp)}
+              placeHolder={'Enter Your Email Address'}
+              onChange={(t: any) => handleOnChangeText(t, 'email')}
+            />
           </View>
-        )}
+          <View
+            style={{
+              alignSelf: 'center',
+              width: 350,
+              marginTop: 20,
+            }}>
+            <CommonTextInput
+              value={profileData.phoneNumber}
+              title={'Phone Number'}
+              placeHolder={'Phone Number'}
+              rightSide={true}
+              rightSideOnPress={() => setIsPopUp(!isPopUp)}
+              onChange={(t: any) => handleOnChangeText(t, 'phoneNumber')}
+              maxLength={10}
+              keyboardType={'number-pad'}
+            />
+          </View>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );

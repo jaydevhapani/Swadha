@@ -26,6 +26,10 @@ import PdfViewer from '../app/DrawerScreens/pdfViewer';
 import Notification from '../app/DrawerScreens/notification';
 import Faq from '../app/DrawerScreens/faq';
 import PrivacyPolicy from '../app/DrawerScreens/privacy';
+import Trd from '../app/DrawerScreens/trd';
+import Fpc from '../app/DrawerScreens/fpc';
+import AboutUs from '../app/DrawerScreens/aboutUs';
+import RepaymentSchedule from '../app/DrawerScreens/repaymentSchedule';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -96,12 +100,41 @@ const DrawerNavigation = () => {
         }}
       />
       <Drawer.Screen
+        name={ScreenName.TRd}
+        component={Trd}
+        options={{
+          drawerLabel: images.trd,
+        }}
+      />
+      <Drawer.Screen
         name={ScreenName.Privacy}
         component={PrivacyPolicy}
         options={{
           drawerLabel: images.trd,
         }}
       />
+      <Drawer.Screen
+        name={ScreenName.Fpd}
+        component={Fpc}
+        options={{
+          drawerLabel: images.trd,
+        }}
+      />
+      <Drawer.Screen
+        name={ScreenName.CC}
+        component={Fpc}
+        options={{
+          drawerLabel: images.citizen,
+        }}
+      />
+      <Drawer.Screen
+        name={ScreenName.AboutUs}
+        component={AboutUs}
+        options={{
+          drawerLabel: images.aboutUs,
+        }}
+      />
+
       <Drawer.Screen
         name={ScreenName.GetInTouch}
         component={GetInTouch}
@@ -135,6 +168,7 @@ export default function ScreenNavigation(): JSX.Element {
       <Stack.Screen name={ScreenName.PayOverDue} component={PayOverDue} />
       <Stack.Screen name={ScreenName.PartPayment} component={PartPayment} />
       <Stack.Screen name={ScreenName.PdfView} component={PdfViewer} />
+      <Stack.Screen name={ScreenName.RepaymentShedual} component={RepaymentSchedule} />
     </Stack.Navigator>
   );
 }

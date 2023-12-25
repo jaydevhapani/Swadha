@@ -21,5 +21,10 @@ export const ScreenName = {
   PdfView: 'PdfViewer',
   Notification : 'Notification',
   Faq : 'Faq',
-  Privacy : 'Privacy Policy'
+  Privacy : 'Privacy Policy',
+  TRd : 'Terms of Service',
+  Fpd : 'Fair Practice Code',
+  CC : 'Citizen Charter',
+  AboutUs : 'About Us',
+  RepaymentShedual : 'RepaymentShedual',
 };

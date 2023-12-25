@@ -13,11 +13,18 @@ import CommonHeader from '../../components/commonHeader';
 import {useDrawerStatus} from '@react-navigation/drawer';
 import Slider from '@react-native-community/slider';
 import colors from '../../utilies/colors';
-import {WIDTH} from '../../utilies/constant';
+import {AlertBox, WIDTH} from '../../utilies/constant';
 import CommonButton from '../../components/commonButton';
 import images from '../../assests/images';
 import DatePicker from 'react-native-date-picker';
 import {RadioGroup} from 'react-native-radio-buttons-group';
+import {Post_Api} from '../../apiHelper/apiHelper';
+import apiName from '../../apiHelper/apiName';
+import {useDispatch} from 'react-redux';
+import i18n from '../../utilies/i18n';
+import CommonAlertBox from '../../components/commonAlertBox';
+import navigationService from '../../navigations/navigationService';
+import {ScreenName} from '../../navigations/screenName';
 
 type Props = {
   navigation: any;
@@ -25,14 +32,17 @@ type Props = {
 
 const EmiCalculation = (props: Props) => {
   const [sliderValues, setSliderValues] = useState({
-    Amount: 1,
-    Tenure: 1,
-    InterestRate: 1,
+    Amount: 0,
+    Tenure: 0,
+    InterestRate: 0,
   });
   const [datepickeropen, setDatepicker] = useState(false);
   const [date, setDate] = useState(new Date());
   const [selectedId, setSelectedId] = useState<string | undefined>();
+  const [emiCalData, setEmiCalData] = useState(undefined);
+  const [isemiCalData, setIsEmiCalData] = useState(Boolean);
 
+  const dispatch = useDispatch();
   const radioButtons = useMemo(
     () => [
       {
@@ -48,6 +58,53 @@ const EmiCalculation = (props: Props) => {
     ],
     [],
   );
+  //emiCalApi
+  const emiCalApi = async () => {
+    let Config = {
+      token: global.accessToken,
+      loanamount: sliderValues.Amount.toFixed() + '00000',
+      tenure: sliderValues.Tenure.toFixed(),
+      roi: sliderValues.InterestRate.toFixed(),
+      startdate: `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
+      method: radioButtons.find(button => button.id == selectedId)?.value,
+    };
+    console.log(Config);
+
+    if (sliderValues.Amount == 0) {
+      AlertBox({
+        Title: i18n.Alert,
+        Message: 'Amount 0 is not acceptable',
+      });
+    } else if (sliderValues.InterestRate == 0) {
+      AlertBox({
+        Title: i18n.Alert,
+        Message: 'Interest rest 0 is not acceptable',
+      });
+    } else if (sliderValues.Tenure == 0) {
+      AlertBox({
+        Title: i18n.Alert,
+        Message: 'Tenure 0 is not acceptable',
+      });
+    } else if (!selectedId) {
+      AlertBox({
+        Title: i18n.Alert,
+        Message: 'Please select Reducing or Flat.',
+      });
+    } else {
+      try {
+        await Post_Api(apiName.EmiCal, Config, dispatch)
+          .then(json => {
+            if (json) {
+              if (json) {
+                setEmiCalData(json.data);
+                setIsEmiCalData(!isemiCalData);
+              }
+            }
+          })
+          .catch(error => {});
+      } catch (error) {}
+    }
+  };
   return (
     <SafeAreaView style={commanStyles.Container}>
       <CommonHeader
@@ -156,7 +213,7 @@ const EmiCalculation = (props: Props) => {
           />
           <View style={{marginTop: 40}}>
             <CommonButton
-              onPress={() => {}}
+              onPress={() => emiCalApi()}
               title={'Calculate'}
               BUttonStyle={{height: 50}}
               textStyle={''}
@@ -164,6 +221,21 @@ const EmiCalculation = (props: Props) => {
           </View>
         </ScrollView>
       </View>
+      {isemiCalData && (
+        <CommonAlertBox
+          EmiData={emiCalData}
+          onPress={() => {
+            setIsEmiCalData(!isemiCalData);
+          }}
+          buttonName={'Cancel'}
+          onPressRepayment={() => {
+            setIsEmiCalData(!isemiCalData);
+            navigationService.navigate(ScreenName.RepaymentShedual, {
+              data: emiCalData,
+            });
+          }}
+        />
+      )}
       <DatePicker
         modal
         open={datepickeropen}

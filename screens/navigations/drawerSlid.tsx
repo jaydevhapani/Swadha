@@ -26,19 +26,18 @@ const CustomSidebarMenu = (props: any) => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
+      <View style={styles.upperBox}>
+        <CommonFooterLogo imageStyle={styles.imageStyle} />
+        <Image
+          source={images.LogOut}
+          style={{
+            height: 30,
+            width: 30,
+            transform: [{rotate: '90deg'}],
+          }}
+        />
+      </View>
       <DrawerContentScrollView {...props} style={{padding: 10}}>
-        <View style={styles.upperBox}>
-          <CommonFooterLogo imageStyle={styles.imageStyle} />
-          <Image
-            source={images.LogOut}
-            style={{
-              height: 30,
-              width: 30,
-              transform: [{rotate: '90deg'}],
-            }}
-          />
-        </View>
-        <View style={{height: 30}} />
         {props?.state?.routes?.map((_item: any, _index: number) => {
           if (_index <= 6) {
             return (
@@ -98,6 +97,10 @@ const CustomSidebarMenu = (props: any) => {
                       paddingTop: 8,
                       paddingBottom: 8,
                     },
+                    _index == 7 && {marginTop: 0},
+                    _index == props?.state?.routes?.length - 1 && {
+                      marginBottom: 40,
+                    },
                   ]}
                   onPress={() => {
                     props?.navigation?.navigate(_item.name);
@@ -130,6 +133,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: 20,
+    paddingHorizontal: 10,
   },
   imageStyle: {
     height: 30,

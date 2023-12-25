@@ -15,4 +15,9 @@ export default {
   getFaqs : BASE_URL + 'getFaqs',
   getPrivacyPolicy : BASE_URL + 'getPrivacyPolicy',
   foreCloseRequest : BASE_URL + 'foreCloseRequest',
+  TermsOfService : BASE_URL + 'getTermsOfService',
+  FairPracticeCode : BASE_URL + 'getFairPracticeCode',
+  Citizen : BASE_URL + 'getCitizenCharter',
+  AboutUs : BASE_URL + 'getAboutUs',
+  EmiCal : BASE_URL + 'emiCalculator',
 };
