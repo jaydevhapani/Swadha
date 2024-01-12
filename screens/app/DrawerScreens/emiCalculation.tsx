@@ -139,14 +139,14 @@ const EmiCalculation = (props: Props) => {
             <View style={style.AmountView}>
               <Text style={style.AmountText}>{'Tenure'}</Text>
               <Text style={style.AmountText}>
-                {sliderValues.Tenure.toFixed()} Years
+                {sliderValues.Tenure.toFixed()} Months
               </Text>
             </View>
 
             <Slider
               style={{width: 330}}
               minimumValue={1}
-              maximumValue={8}
+              maximumValue={84}
               minimumTrackTintColor={colors.green1}
               maximumTrackTintColor="#000000"
               onValueChange={(t: any) => {
@@ -164,7 +164,7 @@ const EmiCalculation = (props: Props) => {
             <Slider
               style={{width: 330}}
               minimumValue={1}
-              maximumValue={10}
+              maximumValue={50}
               minimumTrackTintColor={colors.green1}
               maximumTrackTintColor="#000000"
               onValueChange={(t: any) => {

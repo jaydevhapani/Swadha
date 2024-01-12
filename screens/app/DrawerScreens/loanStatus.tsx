@@ -149,20 +149,25 @@ const LoanStatus = (props: Props) => {
               <Text style={style.BoxHeader}>{'Overdue Amount'}</Text>
               <Text style={style.BoxAnswer}>{loadnDetails.overdue}</Text>
             </View>
-            <View
-              style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-              <TouchableOpacity
-                style={{
-                  height: 36,
-                  width: 100,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  backgroundColor: colors.colorRed,
-                  borderRadius: 100,
-                }}>
-                <Text style={{color: colors.colorWhite}}>Pay Now!</Text>
-              </TouchableOpacity>
-            </View>
+            {
+              loadnDetails.overdue != 0 && (
+                <View
+                style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                <TouchableOpacity
+                  style={{
+                    height: 36,
+                    width: 100,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: colors.colorRed,
+                    borderRadius: 100,
+                  }}>
+                  <Text style={{color: colors.colorWhite}}>Pay Now!</Text>
+                </TouchableOpacity>
+              </View>
+              )
+            }
+        
           </View>
           <View
             style={[

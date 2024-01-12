@@ -15,10 +15,14 @@ import {DrawerContentScrollView} from '@react-navigation/drawer';
 import CommonFooterLogo from '../components/commonFooterLogo';
 import images from '../assests/images';
 import colors from '../utilies/colors';
+import {loginAuth} from '../reduxConfig/slices/loginSlice';
+import {ScreenName} from './screenName';
+import navigationService from './navigationService';
+import {useDispatch} from 'react-redux';
 
 const CustomSidebarMenu = (props: any) => {
   // console.log(props?.descriptors);
-
+  const dispatch = useDispatch();
   const getImageOfObject = (index: any) => {
     const key = Object.keys(props?.descriptors)[index];
     return props?.descriptors[key].options.drawerLabel;
@@ -28,14 +32,20 @@ const CustomSidebarMenu = (props: any) => {
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.upperBox}>
         <CommonFooterLogo imageStyle={styles.imageStyle} />
-        <Image
-          source={images.LogOut}
-          style={{
-            height: 30,
-            width: 30,
-            transform: [{rotate: '90deg'}],
-          }}
-        />
+        <TouchableOpacity
+          onPress={() => {
+            dispatch(loginAuth(undefined));
+            navigationService.resetAndRedirect(ScreenName.Login);
+          }}>
+          <Image
+            source={images.LogOut}
+            style={{
+              height: 30,
+              width: 30,
+              transform: [{rotate: '90deg'}],
+            }}
+          />
+        </TouchableOpacity>
       </View>
       <DrawerContentScrollView {...props} style={{padding: 10}}>
         {props?.state?.routes?.map((_item: any, _index: number) => {

@@ -84,7 +84,7 @@ const MyLoan = (props: Props) => {
             <FlatList
               data={loanData.active}
               renderItem={({item, index}) => (
-                <RenderItem item={item} index={index} />
+                <RenderItem key={index} index={index} item={item} isActive={true}/>
               )}
               ItemSeparatorComponent={() => <View style={{height: 20}} />}
             />
@@ -98,7 +98,7 @@ const MyLoan = (props: Props) => {
             <FlatList
               data={loanData.closed}
               renderItem={({item, index}) => (
-                <RenderItem item={item} index={index} />
+                <RenderItem key={index} index={index} item={item} isActive={false}/>
               )}
               ItemSeparatorComponent={() => <View style={{height: 20}} />}
             />
@@ -109,33 +109,48 @@ const MyLoan = (props: Props) => {
   );
 };
 
-const RenderItem = React.memo(({item}: any, index: any) => {
+type Items = {
+  item : any;
+  index : number;
+  isActive : boolean
+}
+
+const RenderItem = React.memo((data : Items) => {
+  
   return (
-    <TouchableOpacity key={index} style={[style.ItemBox]} onPress={() => {
+    <TouchableOpacity key={data.index} style={[style.ItemBox, {backgroundColor : data.isActive ? '#90EE90' : '#FAA0A0'}]} onPress={() => {
       navigationService.navigate(ScreenName.LoanStatus, {
-        loanid: item['loanid'],
+        loanid: data.item['loanid'],
       });
     }}>
       <View style={{flex: 6}}>
         <View style={{flexDirection: 'row'}}>
           <Text style={style.HeadLine}>{'LAN'}:</Text>
-          <Text style={style.answerLine}>{item['loan_ac_no']}</Text>
+          <Text style={style.answerLine}>{data.item['loan_ac_no']}</Text>
         </View>
         <View style={{flexDirection: 'row'}}>
-          <Text style={style.HeadLine}>{'LoanAmount'}:</Text>
-          <Text style={style.answerLine}>{item['loan_amount']}</Text>
+          <Text style={style.HeadLine}>{'Loan Amount'}:</Text>
+          <Text style={style.answerLine}>{data.item['loan_amount']}</Text>
         </View>
         <View style={{flexDirection: 'row'}}>
-          <Text style={style.HeadLine}>{'EMIAmount'}:</Text>
-          <Text style={style.answerLine}>{item['emi_amount']}</Text>
+          <Text style={style.HeadLine}>{'EMI Amount'}:</Text>
+          <Text style={style.answerLine}>{data.item['emi_amount']}</Text>
         </View>
         <View style={{flexDirection: 'row'}}>
-          <Text style={style.HeadLine}>{'EMIDate'}:</Text>
-          <Text style={style.answerLine}>{item['emi_date']}</Text>
+          <Text style={style.HeadLine}>{'EMI Date'}:</Text>
+          <Text style={style.answerLine}>{data.item['emi_date']}</Text>
         </View>
         <View style={{flexDirection: 'row'}}>
           <Text style={style.HeadLine}>{'Overdue'}:</Text>
-          <Text style={style.answerLine}>{item['overdue']}</Text>
+          <Text style={style.answerLine}>{data.item['overdue']}</Text>
+        </View>
+        <View style={{flexDirection: 'row'}}>
+          <Text style={style.HeadLine}>{'Start Date'}:</Text>
+          <Text style={style.answerLine}>{data.item['emi_start']}</Text>
+        </View>
+        <View style={{flexDirection: 'row'}}>
+          <Text style={style.HeadLine}>{'End Date'}:</Text>
+          <Text style={style.answerLine}>{data.item['emi_end']}</Text>
         </View>
       </View>
       <View

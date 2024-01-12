@@ -1,4 +1,4 @@
-import {Alert, StyleSheet, Text, View} from 'react-native';
+import {Alert, AppState, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import ScreenNavigation from './screens/navigations/screenNavigation';
@@ -8,6 +8,8 @@ import {Provider} from 'react-redux';
 import store from './screens/reduxConfig/store';
 import netInfo from '@react-native-community/netinfo';
 import CommonLoader from './screens/components/commonLoader';
+import Geolocation from '@react-native-community/geolocation';
+import i18n from './screens/utilies/i18n';
 
 //GLOBAL PROPS
 type Props = {};
@@ -35,10 +37,56 @@ const interNetConnectivity = async () => {
   });
 };
 
+//CallApiEvryTimeOn#0Min
+const getUserLocation = async () => {
+  Geolocation.getCurrentPosition(info => {
+    startInveralOfAPi(info);
+  });
+};
+let Interval: NodeJS.Timeout;
+//startInveralOfAPi
+const startInveralOfAPi = (info: any) => {
+  Interval = setInterval(() => {
+    if (global.cid && global.accessToken) {
+      callAPiOfUpdateLocation(info);
+    }
+  }, 1800000); // 30 minutes in milliseconds
+  // 1800000
+};
+
+//callAPiOfUpdateLocation
+const callAPiOfUpdateLocation = async (info: any) => {
+  let Object = {
+    token: global.accessToken,
+    cid: global.cid,
+    latitude: info.coords.latitude,
+    longitude: info.coords.longitude,
+  };
+  await fetch('https://finsolve.in/testing/apifin/updateLocation', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${global.accessToken}`,
+    },
+    body: JSON.stringify(Object),
+  })
+    .then(response => response.json())
+    .then(json => {
+      console.log('JsonData', json);
+    })
+    .catch(error => {
+      console.log('error ::: ', error);
+      return error;
+    });
+};
+
 //APPLICATION START
 const App = (props: Props) => {
   useEffect(() => {
+    getUserLocation();
     interNetConnectivity();
+    return () => clearInterval(Interval);
   }, []);
   return (
     <Provider store={store}>

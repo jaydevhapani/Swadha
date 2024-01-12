@@ -125,7 +125,7 @@ const RenderItem = React.memo(({item}: any, index: any) => {
   return (
     <TouchableOpacity
       key={index}
-      style={[style.ItemBox]}
+      style={[style.ItemBox, {backgroundColor : '#90EE90'}]}
       onPress={() => {
         navigationService.navigate(ScreenName.LoanStatus, {
           loanid: item['loanid'],
@@ -138,20 +138,28 @@ const RenderItem = React.memo(({item}: any, index: any) => {
           <Text style={style.answerLine}>{item['loan_ac_no']}</Text>
         </View>
         <View style={{flexDirection: 'row'}}>
-          <Text style={style.HeadLine}>{'LoanAmount'}:</Text>
+          <Text style={style.HeadLine}>{'Loan Amount'}:</Text>
           <Text style={style.answerLine}>{item['loan_amount']}</Text>
         </View>
         <View style={{flexDirection: 'row'}}>
-          <Text style={style.HeadLine}>{'EMIAmount'}:</Text>
+          <Text style={style.HeadLine}>{'EMI Amount'}:</Text>
           <Text style={style.answerLine}>{item['emi_amount']}</Text>
         </View>
         <View style={{flexDirection: 'row'}}>
-          <Text style={style.HeadLine}>{'EMIDate'}:</Text>
+          <Text style={style.HeadLine}>{'EMI Date'}:</Text>
           <Text style={style.answerLine}>{item['emi_date']}</Text>
         </View>
         <View style={{flexDirection: 'row'}}>
           <Text style={style.HeadLine}>{'Overdue'}:</Text>
           <Text style={style.answerLine}>{item['overdue']}</Text>
+        </View>
+        <View style={{flexDirection: 'row'}}>
+          <Text style={style.HeadLine}>{'Start Date'}:</Text>
+          <Text style={style.answerLine}>{item['emi_start']}</Text>
+        </View>
+        <View style={{flexDirection: 'row'}}>
+          <Text style={style.HeadLine}>{'End Date'}:</Text>
+          <Text style={style.answerLine}>{item['emi_end']}</Text>
         </View>
       </View>
       <View
