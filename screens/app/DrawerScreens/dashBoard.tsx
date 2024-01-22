@@ -16,10 +16,10 @@ import colors from '../../utilies/colors';
 import images from '../../assests/images';
 import navigationService from '../../navigations/navigationService';
 import {ScreenName} from '../../navigations/screenName';
-import {Post_Api} from '../../apiHelper/apiHelper';
+import {Get_Api, Post_Api} from '../../apiHelper/apiHelper';
 import apiName from '../../apiHelper/apiName';
 import {useDispatch} from 'react-redux';
-import {userProfileData} from '../../reduxConfig/slices/commanSlice';
+import {setAllSocialLinks, userProfileData} from '../../reduxConfig/slices/commanSlice';
 import { useIsFocused } from '@react-navigation/native';
 
 const dummyArray = [
@@ -49,7 +49,19 @@ const DashBoard = (props: Props) => {
   useEffect(() => {
     fetchProfileScreen();
     fetchActiveLoan();
+    getSocialLinks();
   }, [focus]);
+
+  //getSocialLinks
+  const getSocialLinks = async() => {
+    try {
+      await Get_Api(apiName.getSocialLinks, Object)
+        .then(json => {
+            dispatch(setAllSocialLinks(json))
+        })
+        .catch(error => {});
+    } catch (error) {}
+  }
 
   //State
   const [activeData, setActiveData] = useState([]);

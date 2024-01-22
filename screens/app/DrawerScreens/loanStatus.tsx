@@ -75,8 +75,7 @@ const LoanStatus = (props: Props) => {
     if (props.route.params.loanid != undefined) {
       fetchLoadnDetails();
     }
-  }, [props]);
-
+  }, [props]);  
   //fetchLoadnDetails
   const fetchLoadnDetails = async () => {
     const Object = {
@@ -96,6 +95,7 @@ const LoanStatus = (props: Props) => {
     } catch (error) {}
   };
   const date = new Date();
+  
   return (
     <SafeAreaView style={commanStyles.Container}>
       <CommonHeader
@@ -275,46 +275,51 @@ const LoanStatus = (props: Props) => {
   );
 };
 
-const clickOnButton = ({item: item, loadnDetails: loadnDetails, lan: lan}) => {
-  if (item?.name == footerArray[0].name && loadnDetails.statement) {
+interface ButtonProps {
+  item?: any;
+  loadnDetails?: any;
+  lan?: any;
+}
+const clickOnButton = (props : ButtonProps) => {
+  if (props?.item?.name == footerArray[0].name && props.loadnDetails.statement) {
     navigationService.navigate(ScreenName.PdfView, {
-      pdf: loadnDetails.statement,
+      pdf: props.loadnDetails.statement,
     });
   } else if (
-    item?.name == footerArray[1].name &&
-    loadnDetails.repayment_schedule
+    props?.item?.name == footerArray[1].name &&
+    props.loadnDetails.repayment_schedule
   ) {
     navigationService.navigate(ScreenName.PdfView, {
-      pdf: loadnDetails.repayment_schedule,
+      pdf: props.loadnDetails.repayment_schedule,
     });
   } else if (
-    item?.name == footerArray[2].name &&
-    loadnDetails.sanction_letter
+    props?.item?.name == footerArray[2].name &&
+    props.loadnDetails.sanction_letter
   ) {
     navigationService.navigate(ScreenName.PdfView, {
-      pdf: loadnDetails.sanction_letter,
+      pdf: props.loadnDetails.sanction_letter,
     });
-  } else if (item?.name == footerArray[6].name && loadnDetails.noc_letter) {
+  } else if (props?.item?.name == footerArray[6].name && props.loadnDetails.noc_letter) {
     navigationService.navigate(ScreenName.PdfView, {
-      pdf: loadnDetails.noc_letter,
+      pdf: props.loadnDetails.noc_letter,
     });
   } else if (
-    item?.name == footerArray[7].name &&
-    loadnDetails.insurance_policy
+    props?.item?.name == footerArray[7].name &&
+    props.loadnDetails.insurance_policy
   ) {
     navigationService.navigate(ScreenName.PdfView, {
-      pdf: loadnDetails.insurance_policy,
+      pdf: props.loadnDetails.insurance_policy,
     });
   } else if (
-    item?.name == footerArray[3].name ||
-    item?.name == footerArray[5].name
+    props?.item?.name == footerArray[3].name ||
+    props?.item?.name == footerArray[5].name
   ) {
-    navigationService.navigate(item.name, {
-      loanid: loadnDetails.loanid,
+    navigationService.navigate(props?.item?.name, {
+      loanid: props.loadnDetails.loanid,
     });
-  } else if (item?.name == footerArray[4].name) {
-    navigationService.navigate(item.name, {
-      loadnDetails: {loadnDetails, lan: lan},
+  } else if (props?.item?.name == footerArray[4].name) {
+    navigationService.navigate(props?.item?.name, {
+      loadnDetails: {...props.loadnDetails, lan: props.lan},
     });
   } else {
     AlertBox({

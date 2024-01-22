@@ -2,15 +2,17 @@ import {View, Text, StyleSheet, Image} from 'react-native';
 import React from 'react';
 import colors from '../utilies/colors';
 import images from '../assests/images';
+import { useSelector } from 'react-redux';
 type Props = {
   viewStyle?: any;
   imageStyle?: any;
 };
 export default function CommanProfileBox(props: Props) {
+  const {userData} = useSelector(({loginSlice}) => loginSlice);
   return (
     <View style={[styles.Profile, props.viewStyle]}>
       <Image
-        source={images.profile}
+        source={{uri : userData?.profilePhoto}}
         resizeMode="contain"
         style={[styles.image, props.imageStyle]}
       />

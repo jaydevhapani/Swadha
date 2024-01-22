@@ -21,5 +21,7 @@ export default {
   aboutUs: require('./images/about-us.png'),
   dashboard: require('./images/dashboard.png'),
   tickMark : require('./images/tickmark.png'),
-  down : require('./images/down.png')
+  down : require('./images/down.png'),
+  linkedin : require('./images/linkedin.png'),
+  facebook : require('./images/facebook.png'),
 };

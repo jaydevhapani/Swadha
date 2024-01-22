@@ -6,7 +6,7 @@ export const LoginAuth = createSlice({
     userData: undefined,
   },
   reducers: {
-    loginAuth: (state, action) => {
+    loginAuth: (state, action) => {      
       state.userData = action.payload;
     },
   },

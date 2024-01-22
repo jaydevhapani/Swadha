@@ -116,11 +116,13 @@ type Items = {
 }
 
 const RenderItem = React.memo((data : Items) => {
-  
+  console.log('====================================');
+  console.log(data.item);
+  console.log('====================================');
   return (
     <TouchableOpacity key={data.index} style={[style.ItemBox, {backgroundColor : data.isActive ? '#90EE90' : '#FAA0A0'}]} onPress={() => {
       navigationService.navigate(ScreenName.LoanStatus, {
-        loanid: data.item['loanid'],
+        loandata: data.item,
       });
     }}>
       <View style={{flex: 6}}>

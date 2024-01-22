@@ -1,6 +1,6 @@
 import {Alert, AppState, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, useFocusEffect} from '@react-navigation/native';
 import ScreenNavigation from './screens/navigations/screenNavigation';
 import {persistStore} from 'redux-persist';
 import {PersistGate} from 'redux-persist/integration/react';
@@ -40,6 +40,8 @@ const interNetConnectivity = async () => {
 //CallApiEvryTimeOn#0Min
 const getUserLocation = async () => {
   Geolocation.getCurrentPosition(info => {
+    console.log("location : ", info);
+    
     startInveralOfAPi(info);
   });
 };

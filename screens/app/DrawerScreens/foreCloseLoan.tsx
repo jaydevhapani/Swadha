@@ -33,11 +33,12 @@ const ForeCloseLoan = (props: Props) => {
   const dispatch = useDispatch();
   const [datepickeropen, setDatepicker] = useState(false);
   const [date, setDate] = useState(new Date());
+  console.log(props.route.params);
 
   const onSubmitRequest = async () => {
     const Object = {
       token: global.accessToken,
-      loanid: props.route.params.loadnDetails.loadnDetails.loanid,
+      loanid: props.route.params.loadnDetails.loanid,
       date: date.getFullYear() +
       '-' +
       (date.getMonth() + 1) +
@@ -58,6 +59,7 @@ const ForeCloseLoan = (props: Props) => {
         .catch(error => {});
     } catch (error) {}
   };
+  
   return (
     <SafeAreaView style={commanStyles.Container}>
       <CommonHeader
@@ -84,7 +86,7 @@ const ForeCloseLoan = (props: Props) => {
                   <Text style={style.HeadLine}>{'Current Outstanding'}:</Text>
                   <Text style={style.answerLine}>
                     {
-                      props.route.params.loadnDetails.loadnDetails
+                      props.route.params.loadnDetails
                         .outstanding_amount
                     }
                   </Text>

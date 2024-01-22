@@ -17,6 +17,8 @@ import {useIsFocused} from '@react-navigation/native';
 import i18n from '../../utilies/i18n';
 import colors from '../../utilies/colors';
 import CommonButton from '../../components/commonButton';
+import { AlertBox } from '../../utilies/constant';
+import navigationService from '../../navigations/navigationService';
 
 type Props = {
   navigation: any;
@@ -48,18 +50,37 @@ const Notification = (props: Props) => {
     } catch (error) {}
   };
 
-  //chanhgeValueOfKey
-  const chanhgeValueOfKey = (index: number) => {
-    var newArray = [...notifications];
-    newArray[index].isOpen =
-      newArray[index].isOpen == undefined
-        ? true
-        : newArray[index].isOpen == false
-        ? true
-        : false;
-    setNotifications(newArray);
-  };
+  //clearNotification
+  const clearNotification = async() => {
+    const Object = {
+      token: global.accessToken,
+      cid: global.cid,
+    };
+    try {
+      await Post_Api(apiName.clearNotifications, Object, dispatch)
+        .then(json => {
+          if (json) {
+            AlertBox({
+              Message : 'Notification clear!',
+              Title : i18n.Alert,
+              onOkPress: () => getAllNotification()
+            })
+          }
+        })
+        .catch(error => {});
+    } catch (error) {}
+  }
 
+  //chanhgeValueOfKey
+  const changeValueOfKey = (index: number): void => {
+    const newArray = [...notifications];
+  
+    // Check if newArray[index] is defined before accessing isOpen
+    if (newArray[index]) {
+      newArray[index].isOpen = newArray[index].isOpen === undefined ? true : !newArray[index].isOpen;
+      setNotifications(newArray);
+    }
+  };
   //renderItems
   const renderItems = (item: any, index: number) => {
     return (
@@ -72,7 +93,7 @@ const Notification = (props: Props) => {
           borderBottomColor: colors.lightGray,
           paddingVertical: 10,
         }}
-        onPress={() => chanhgeValueOfKey(index)}
+        onPress={() => changeValueOfKey(index)}
         key={index}>
         <Text style={styles.notificationHeaderText}>{item.title}</Text>
         {item?.isOpen && (
@@ -116,7 +137,7 @@ const Notification = (props: Props) => {
             alignSelf : 'center',
             marginVertical : 20,
           }}
-          onPress={() => {}}>
+          onPress={() => clearNotification()}>
           <Text style={{color: colors.colorWhite}}>{'Clear Notifications'}</Text>
         </TouchableOpacity>
       </View>

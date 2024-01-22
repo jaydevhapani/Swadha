@@ -92,16 +92,15 @@ export const Get_Api = async (Url: RequestInfo, params: any) => {
     .then(response => response.json())
     .then(json => {
       console.log('URL :::', Url);
-      const JsonData = checkOfResponseValidation(json);
-      console.log('JsonData', JsonData);
-      Promise.resolve(JsonData);
+      console.log('json :::', json);
+      return json;
     })
     .catch(error => {
       AlertBox({
         Title: i18n.Alert,
         Message: 'Something Went Wrong!',
       });
-      Promise.reject(error);
+      return error;
     });
 };
 

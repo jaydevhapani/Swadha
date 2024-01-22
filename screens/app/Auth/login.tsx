@@ -77,7 +77,7 @@ const Login = (props: Props) => {
         await Post_Api(apiName.verifyOtp, state, dispatch)
           .then(json => {
             if (json) {
-              dispatch(loginAuth(json?.data));
+              dispatch(loginAuth({...json?.data, profilePhoto : json?.profilePhoto}));
               global.cid = json?.data?.cid;
               navigationService.resetAndRedirect(ScreenName.DashBoard);
             }

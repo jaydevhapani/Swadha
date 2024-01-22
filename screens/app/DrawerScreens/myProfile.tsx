@@ -65,7 +65,7 @@ const MyProfile = (props: Props) => {
           <Text style={commanStyles.HeaderText}>My Profile</Text>
           <View>
             <CommanProfileBox />
-            <TouchableOpacity style={styles.absoluteButton}></TouchableOpacity>
+            {/* <TouchableOpacity style={styles.absoluteButton}></TouchableOpacity> */}
           </View>
           <View
             style={{

@@ -61,63 +61,69 @@ const ManDateDetails = (props: Props) => {
         navigation={props.navigation}
       />
       <View style={[commanStyles.Container, commanStyles.pH10]}>
-        <Text style={commanStyles.HeaderText}>
-          SWADHA FINLEASE- Mandate Details
-        </Text>
-        <View style={{marginLeft: 10, marginTop: 20}}>
-          <View style={styles.flexBox}>
-            <Text style={styles.title}>Customer name</Text>
-            <Text style={styles.title1}>
-              {':    ' + mandateObject.customer_name}
+        {mandateObject.account_number && (
+          <>
+            <Text style={commanStyles.HeaderText}>
+              SWADHA FINLEASE- Mandate Details
             </Text>
-          </View>
-          <View style={styles.flexBox}>
-            <Text style={styles.title}>Umrn</Text>
-            <Text style={styles.title1}>{':    ' + mandateObject.UMRN}</Text>
-          </View>
-          <View style={[styles.flexBox]}>
-            <Text style={styles.title}>Bank name</Text>
-            <Text style={styles.title1}>
-              {':    ' + mandateObject.bank_name}
-            </Text>
-          </View>
-          <View style={styles.flexBox}>
-            <Text style={styles.title}>Account number</Text>
-            <Text style={styles.title1}>
-              {':    ' + mandateObject.account_number}
-            </Text>
-          </View>
-          <View style={styles.flexBox}>
-            <Text style={styles.title}>Account type</Text>
-            <Text style={styles.title1}>
-              {':    ' + mandateObject.account_type}
-            </Text>
-          </View>
-          <View style={styles.flexBox}>
-            <Text style={styles.title}>IFSC code</Text>
-            <Text style={styles.title1}>
-              {':    ' + mandateObject.ifsc_code}
-            </Text>
-          </View>
-          <View style={styles.flexBox}>
-            <Text style={styles.title}>Siamount</Text>
-            <Text style={styles.title1}>
-              {':    ' + mandateObject.siamount}
-            </Text>
-          </View>
-          <View style={styles.flexBox}>
-            <Text style={styles.title}>Start date</Text>
-            <Text style={styles.title1}>
-              {':    ' + mandateObject.start_date}
-            </Text>
-          </View>
-          <View style={styles.flexBox}>
-            <Text style={styles.title}>End date</Text>
-            <Text style={styles.title1}>
-              {':    ' + mandateObject.end_date}
-            </Text>
-          </View>
-        </View>
+            <View style={{marginLeft: 10, marginTop: 20}}>
+              <View style={styles.flexBox}>
+                <Text style={styles.title}>Customer name</Text>
+                <Text style={styles.title1}>
+                  {':    ' + mandateObject.customer_name}
+                </Text>
+              </View>
+              <View style={styles.flexBox}>
+                <Text style={styles.title}>Umrn</Text>
+                <Text style={styles.title1}>
+                  {':    ' + mandateObject.UMRN}
+                </Text>
+              </View>
+              <View style={[styles.flexBox]}>
+                <Text style={styles.title}>Bank name</Text>
+                <Text style={styles.title1}>
+                  {':    ' + mandateObject.bank_name}
+                </Text>
+              </View>
+              <View style={styles.flexBox}>
+                <Text style={styles.title}>Account number</Text>
+                <Text style={styles.title1}>
+                  {':    ' + mandateObject.account_number}
+                </Text>
+              </View>
+              <View style={styles.flexBox}>
+                <Text style={styles.title}>Account type</Text>
+                <Text style={styles.title1}>
+                  {':    ' + mandateObject.account_type}
+                </Text>
+              </View>
+              <View style={styles.flexBox}>
+                <Text style={styles.title}>IFSC code</Text>
+                <Text style={styles.title1}>
+                  {':    ' + mandateObject.ifsc_code}
+                </Text>
+              </View>
+              <View style={styles.flexBox}>
+                <Text style={styles.title}>Siamount</Text>
+                <Text style={styles.title1}>
+                  {':    ' + mandateObject.siamount}
+                </Text>
+              </View>
+              <View style={styles.flexBox}>
+                <Text style={styles.title}>Start date</Text>
+                <Text style={styles.title1}>
+                  {':    ' + mandateObject.start_date}
+                </Text>
+              </View>
+              <View style={styles.flexBox}>
+                <Text style={styles.title}>End date</Text>
+                <Text style={styles.title1}>
+                  {':    ' + mandateObject.end_date}
+                </Text>
+              </View>
+            </View>
+          </>
+        )}
       </View>
     </SafeAreaView>
   );

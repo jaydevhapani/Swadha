@@ -9,6 +9,7 @@ import {
   Image,
   Text,
   TouchableOpacity,
+  Linking,
 } from 'react-native';
 
 import {DrawerContentScrollView} from '@react-navigation/drawer';
@@ -18,11 +19,16 @@ import colors from '../utilies/colors';
 import {loginAuth} from '../reduxConfig/slices/loginSlice';
 import {ScreenName} from './screenName';
 import navigationService from './navigationService';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import store from '../reduxConfig/store';
 
 const CustomSidebarMenu = (props: any) => {
   // console.log(props?.descriptors);
   const dispatch = useDispatch();
+  const {socialLinks} = useSelector(({commanSlice}) => commanSlice);
+  console.log('====================================');
+  console.log(socialLinks);
+  console.log('====================================');
   const getImageOfObject = (index: any) => {
     const key = Object.keys(props?.descriptors)[index];
     return props?.descriptors[key].options.drawerLabel;
@@ -132,6 +138,23 @@ const CustomSidebarMenu = (props: any) => {
           }
         })}
       </DrawerContentScrollView>
+      <View
+        style={{
+          height: 40,
+          width : 100,
+          marginVertical : 10,
+          alignSelf : 'center',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-evenly',
+        }}>
+        <TouchableOpacity onPress={() => Linking.openURL(socialLinks.facebook)}>
+          <Image source={images.facebook} style={styles.Icons} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => Linking.openURL(socialLinks.linkedin)}>
+          <Image source={images.linkedin} style={styles.Icons} />
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
@@ -163,6 +186,10 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
     fontFamily: 'Montserrat-Medium',
     marginLeft: 10,
+  },
+  Icons: {
+    height: 30,
+    width: 30,
   },
 });
 

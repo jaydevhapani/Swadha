@@ -5,6 +5,7 @@ export const CommanSlice = createSlice({
   initialState: {
     isLoader: false,
     userProfileData: undefined,
+    socialLinks : undefined,
   },
   reducers: {
     isLoaderState: (state, action) => {
@@ -13,9 +14,12 @@ export const CommanSlice = createSlice({
     userProfileData: (state, action) => {
       state.userProfileData = action.payload;
     },
+    setAllSocialLinks: (state, action) => {
+      state.socialLinks = action.payload;
+    },
   },
 });
 
-export const {isLoaderState, userProfileData} = CommanSlice.actions;
+export const {isLoaderState, userProfileData, setAllSocialLinks} = CommanSlice.actions;
 
 export default CommanSlice.reducer;

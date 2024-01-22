@@ -12,6 +12,7 @@ export default {
   getMandateDetail : BASE_URL + 'getMandateDetail',
   applyNewLoan : BASE_URL + 'applyNewLoan',
   getNotifications  : BASE_URL + 'getNotifications',
+  clearNotifications  : BASE_URL + 'clearNotifications',
   getFaqs : BASE_URL + 'getFaqs',
   getPrivacyPolicy : BASE_URL + 'getPrivacyPolicy',
   foreCloseRequest : BASE_URL + 'foreCloseRequest',
@@ -20,4 +21,5 @@ export default {
   Citizen : BASE_URL + 'getCitizenCharter',
   AboutUs : BASE_URL + 'getAboutUs',
   EmiCal : BASE_URL + 'emiCalculator',
+  getSocialLinks : BASE_URL + 'getSocialLinks',
 };
