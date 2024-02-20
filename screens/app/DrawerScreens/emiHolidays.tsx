@@ -16,6 +16,8 @@ import CommonButton from '../../components/commonButton';
 import {useDispatch} from 'react-redux';
 import {Post_Api} from '../../apiHelper/apiHelper';
 import apiName from '../../apiHelper/apiName';
+import { AlertBox } from '../../utilies/constant';
+import i18n from '../../utilies/i18n';
 
 type Props = {
   navigation: any;
@@ -62,6 +64,20 @@ const EmiHolidays = (props: Props) => {
         .catch(error => {});
     } catch (error) {}
   };
+
+    //clickOnPayNow
+    const clickOnPayNow = () => {
+      const url = `https://finsolve.in/sfpl/pg/payment?loanid=${holyDay.loanid}&amount=${holyDay.emi_amount}&channel=MobileApp`;
+      if (isTickMark) {
+        console.log('====================================');
+        console.log("Url :: ", url);
+        console.log('====================================');
+      }
+      else {
+        AlertBox({Message : 'Please accept terms of emi holidays and pay.', Title : i18n.Alert, onOkPress : () => {}})
+      }
+
+    };
   return (
     <SafeAreaView style={commanStyles.Container}>
       <CommonHeader
@@ -196,7 +212,7 @@ const EmiHolidays = (props: Props) => {
                 marginVertical: 20,
                 backgroundColor: colors.colorRed,
               }}
-              onPress={() => {}}
+              onPress={() => clickOnPayNow()}
               textStyle={''}
               title={'Pay Now'}
             />

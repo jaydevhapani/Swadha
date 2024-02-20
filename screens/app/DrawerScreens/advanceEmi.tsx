@@ -3,21 +3,13 @@ import {
   Text,
   SafeAreaView,
   StyleSheet,
-  FlatList,
-  Image,
-  TouchableOpacity,
   TextInput,
   ScrollView,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import commanStyles from '../../utilies/commanStyles';
 import CommonHeader from '../../components/commonHeader';
-import {useDrawerStatus} from '@react-navigation/drawer';
 import colors from '../../utilies/colors';
-import images from '../../assests/images';
-import navigationService from '../../navigations/navigationService';
-import {ScreenName} from '../../navigations/screenName';
-import CommonTextInput from '../../components/commonTextInput';
 import CommonButton from '../../components/commonButton';
 import {Post_Api} from '../../apiHelper/apiHelper';
 import apiName from '../../apiHelper/apiName';
@@ -27,16 +19,6 @@ type Props = {
   navigation: any;
   route: any;
 };
-
-const dummyArray = [
-  {
-    LAN: '48734687932493278',
-    LoanAmount: '20000',
-    EMIAmount: '29873',
-    EMIDate: '07th of every month',
-    Overdue: '10000',
-  },
-];
 
 const AdvanceEmi = (props: Props) => {
   const dispatch = useDispatch();
@@ -72,6 +54,14 @@ const AdvanceEmi = (props: Props) => {
         })
         .catch(error => {});
     } catch (error) {}
+  };
+
+  //clickOnPayNow
+  const clickOnPayNow = () => {
+    const url = `https://finsolve.in/sfpl/pg/payment?loanid=${advanceEmi.loanid}&amount=${advanceEmi.emi_amount}&channel=MobileApp`;
+    console.log('====================================');
+    console.log("Url :: ", url);
+    console.log('====================================');
   };
 
   return (
@@ -174,7 +164,7 @@ const AdvanceEmi = (props: Props) => {
               }}
               textStyle={''}
               title={'Pay Now!'}
-              onPress={() => {}}
+              onPress={() => clickOnPayNow()}
             />
           </View>
         </View>
