@@ -21,8 +21,7 @@ import {Post_Api} from '../../apiHelper/apiHelper';
 import apiName from '../../apiHelper/apiName';
 import {useDispatch} from 'react-redux';
 import {userProfileData} from '../../reduxConfig/slices/commanSlice';
-import { useIsFocused } from '@react-navigation/native';
-
+import {useIsFocused} from '@react-navigation/native';
 
 type Props = {
   navigation: any;
@@ -30,8 +29,7 @@ type Props = {
 
 const MyLoan = (props: Props) => {
   const dispatch = useDispatch();
-  const focus  = useIsFocused();
-
+  const focus = useIsFocused();
 
   useEffect(() => {
     fetchActiveLoan();
@@ -39,8 +37,8 @@ const MyLoan = (props: Props) => {
 
   //State
   const [loanData, setLoanData] = useState({
-    active : [],
-    closed : [],
+    active: [],
+    closed: [],
   });
 
   //fetchActiveLoan
@@ -53,17 +51,17 @@ const MyLoan = (props: Props) => {
       await Post_Api(apiName.myLoans, Object, dispatch)
         .then(json => {
           if (json) {
-            handleArray(json?.data?.active , 'active');
-            handleArray(json?.data?.closed , 'closed');
+            handleArray(json?.data?.active, 'active');
+            handleArray(json?.data?.closed, 'closed');
           }
         })
         .catch(error => {});
     } catch (error) {}
   };
 
-  const handleArray = (data : any , key : string) => {
-    setLoanData(prevdata => ({...prevdata , [key] : data}));
-  }
+  const handleArray = (data: any, key: string) => {
+    setLoanData(prevdata => ({...prevdata, [key]: data}));
+  };
 
   return (
     <SafeAreaView style={[commanStyles.Container]}>
@@ -84,7 +82,12 @@ const MyLoan = (props: Props) => {
             <FlatList
               data={loanData.active}
               renderItem={({item, index}) => (
-                <RenderItem key={index} index={index} item={item} isActive={true}/>
+                <RenderItem
+                  key={index}
+                  index={index}
+                  item={item}
+                  isActive={true}
+                />
               )}
               ItemSeparatorComponent={() => <View style={{height: 20}} />}
             />
@@ -98,7 +101,12 @@ const MyLoan = (props: Props) => {
             <FlatList
               data={loanData.closed}
               renderItem={({item, index}) => (
-                <RenderItem key={index} index={index} item={item} isActive={false}/>
+                <RenderItem
+                  key={index}
+                  index={index}
+                  item={item}
+                  isActive={false}
+                />
               )}
               ItemSeparatorComponent={() => <View style={{height: 20}} />}
             />
@@ -110,21 +118,30 @@ const MyLoan = (props: Props) => {
 };
 
 type Items = {
-  item : any;
-  index : number;
-  isActive : boolean
-}
+  item: any;
+  index: number;
+  isActive: boolean;
+};
 
-const RenderItem = React.memo((data : Items) => {
+const RenderItem = React.memo((data: Items) => {
   console.log('====================================');
   console.log(data.item);
   console.log('====================================');
   return (
-    <TouchableOpacity key={data.index} style={[style.ItemBox, {backgroundColor : data.isActive ? '#90EE90' : '#FAA0A0'}]} onPress={() => {
-      navigationService.navigate(ScreenName.LoanStatus, {
-        loandata: data.item,
-      });
-    }}>
+    <TouchableOpacity
+      key={data.index}
+      style={[
+        style.ItemBox,
+        {backgroundColor: data.isActive ? '#90EE90' : '#FAA0A0'},
+      ]}
+      onPress={() => {
+        console.log(data.item);
+
+        navigationService.navigate(ScreenName.LoanStatus, {
+          loanid: data.item['loanid'],
+          lan: data.item['loan_ac_no'],
+        });
+      }}>
       <View style={{flex: 6}}>
         <View style={{flexDirection: 'row'}}>
           <Text style={style.HeadLine}>{'LAN'}:</Text>

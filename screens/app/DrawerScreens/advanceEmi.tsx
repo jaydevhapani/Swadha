@@ -14,6 +14,8 @@ import CommonButton from '../../components/commonButton';
 import {Post_Api} from '../../apiHelper/apiHelper';
 import apiName from '../../apiHelper/apiName';
 import {useDispatch} from 'react-redux';
+import { ScreenName } from '../../navigations/screenName';
+import navigationService from '../../navigations/navigationService';
 
 type Props = {
   navigation: any;
@@ -58,10 +60,13 @@ const AdvanceEmi = (props: Props) => {
 
   //clickOnPayNow
   const clickOnPayNow = () => {
-    const url = `https://finsolve.in/sfpl/pg/payment?loanid=${advanceEmi.loanid}&amount=${advanceEmi.emi_amount}&channel=MobileApp`;
+    const url = `https://finsolve.in/sfpl/pg/payment?loanid=${advanceEmi.loanid}&amount=${advanceEmi.emi_amount}&paymentfor=AdvanceEMI&channel=MobileApp`;
     console.log('====================================');
     console.log("Url :: ", url);
     console.log('====================================');
+    navigationService.navigate(ScreenName.PaymentUI, {
+      Url: url,
+    });
   };
 
   return (

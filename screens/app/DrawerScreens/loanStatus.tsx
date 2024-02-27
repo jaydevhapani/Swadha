@@ -75,7 +75,7 @@ const LoanStatus = (props: Props) => {
     if (props.route.params.loanid != undefined) {
       fetchLoadnDetails();
     }
-  }, [props]);  
+  }, [props]);
   //fetchLoadnDetails
   const fetchLoadnDetails = async () => {
     const Object = {
@@ -95,7 +95,18 @@ const LoanStatus = (props: Props) => {
     } catch (error) {}
   };
   const date = new Date();
-  
+
+  //clickOnPayNow
+  const clickOnPayNow = () => {
+    const url = `https://finsolve.in/sfpl/pg/payment?loanid=${loadnDetails.loanid}&amount=${loadnDetails.overdue}&paymentfor=Overdue&channel=MobileApp`;
+    console.log('====================================');
+    console.log('Url :: ', url);
+    console.log('====================================');
+    navigationService.navigate(ScreenName.PaymentUI, {
+      Url: url,
+    });
+  };
+
   return (
     <SafeAreaView style={commanStyles.Container}>
       <CommonHeader
@@ -149,10 +160,13 @@ const LoanStatus = (props: Props) => {
               <Text style={style.BoxHeader}>{'Overdue Amount'}</Text>
               <Text style={style.BoxAnswer}>{loadnDetails.overdue}</Text>
             </View>
-            {
-              loadnDetails.overdue != 0 && (
-                <View
-                style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+            {loadnDetails.overdue != 0 && (
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
                 <TouchableOpacity
                   style={{
                     height: 36,
@@ -161,13 +175,12 @@ const LoanStatus = (props: Props) => {
                     justifyContent: 'center',
                     backgroundColor: colors.colorRed,
                     borderRadius: 100,
-                  }}>
+                  }}
+                  onPress={() => clickOnPayNow()}>
                   <Text style={{color: colors.colorWhite}}>Pay Now!</Text>
                 </TouchableOpacity>
               </View>
-              )
-            }
-        
+            )}
           </View>
           <View
             style={[
@@ -280,8 +293,11 @@ interface ButtonProps {
   loadnDetails?: any;
   lan?: any;
 }
-const clickOnButton = (props : ButtonProps) => {
-  if (props?.item?.name == footerArray[0].name && props.loadnDetails.statement) {
+const clickOnButton = (props: ButtonProps) => {
+  if (
+    props?.item?.name == footerArray[0].name &&
+    props.loadnDetails.statement
+  ) {
     navigationService.navigate(ScreenName.PdfView, {
       pdf: props.loadnDetails.statement,
     });
@@ -299,7 +315,10 @@ const clickOnButton = (props : ButtonProps) => {
     navigationService.navigate(ScreenName.PdfView, {
       pdf: props.loadnDetails.sanction_letter,
     });
-  } else if (props?.item?.name == footerArray[6].name && props.loadnDetails.noc_letter) {
+  } else if (
+    props?.item?.name == footerArray[6].name &&
+    props.loadnDetails.noc_letter
+  ) {
     navigationService.navigate(ScreenName.PdfView, {
       pdf: props.loadnDetails.noc_letter,
     });

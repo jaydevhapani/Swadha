@@ -18,6 +18,8 @@ import {Post_Api} from '../../apiHelper/apiHelper';
 import apiName from '../../apiHelper/apiName';
 import { AlertBox } from '../../utilies/constant';
 import i18n from '../../utilies/i18n';
+import navigationService from '../../navigations/navigationService';
+import { ScreenName } from '../../navigations/screenName';
 
 type Props = {
   navigation: any;
@@ -67,11 +69,11 @@ const EmiHolidays = (props: Props) => {
 
     //clickOnPayNow
     const clickOnPayNow = () => {
-      const url = `https://finsolve.in/sfpl/pg/payment?loanid=${holyDay.loanid}&amount=${holyDay.emi_amount}&channel=MobileApp`;
+      const url = `https://finsolve.in/sfpl/pg/payment?loanid=${holyDay.loanid}&amount=${holyDay.emi_amount}&paymentfor=HolidayEMI&channel=MobileApp`;
       if (isTickMark) {
-        console.log('====================================');
-        console.log("Url :: ", url);
-        console.log('====================================');
+        navigationService.navigate(ScreenName.PaymentUI, {
+          Url: url,
+        });
       }
       else {
         AlertBox({Message : 'Please accept terms of emi holidays and pay.', Title : i18n.Alert, onOkPress : () => {}})
@@ -271,3 +273,6 @@ const style = StyleSheet.create({
 });
 
 export default EmiHolidays;
+
+
+

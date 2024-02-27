@@ -103,8 +103,8 @@ const GetInTouch = (props: Props) => {
             <Text style={commanStyles.HeaderText}>Get in Touch</Text>
             <View>
               <CommanProfileBox />
-              <TouchableOpacity
-                style={styles.absoluteButton}></TouchableOpacity>
+              {/* <TouchableOpacity
+                style={styles.absoluteButton}></TouchableOpacity> */}
             </View>
             <View
               style={{

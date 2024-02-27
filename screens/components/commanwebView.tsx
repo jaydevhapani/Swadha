@@ -3,12 +3,20 @@ import React from 'react';
 import WebView from 'react-native-webview';
 
 type Props = {
-    url : string
-  };
+  url: string;
+  handleWebViewMessage?: any;
+};
 
-export default function CommanwebView(url : Props) {
+export default function CommanwebView(props: Props) {
   return (
-    <WebView source={{uri: url.url}} style={{flex: 1}} />
+    <WebView
+      source={{uri: props.url}}
+      style={{flex: 1}}
+      onMessage={event => {
+        console.log('event :: ', event.nativeEvent.data);
+        props.handleWebViewMessage && props.handleWebViewMessage(event);
+      }}
+    />
   );
 }
 

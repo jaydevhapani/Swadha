@@ -30,6 +30,7 @@ import Trd from '../app/DrawerScreens/trd';
 import Fpc from '../app/DrawerScreens/fpc';
 import AboutUs from '../app/DrawerScreens/aboutUs';
 import RepaymentSchedule from '../app/DrawerScreens/repaymentSchedule';
+import { PaymentUI } from '../app/PaymentView/payMent';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -169,6 +170,7 @@ export default function ScreenNavigation(): JSX.Element {
       <Stack.Screen name={ScreenName.PartPayment} component={PartPayment} />
       <Stack.Screen name={ScreenName.PdfView} component={PdfViewer} />
       <Stack.Screen name={ScreenName.RepaymentShedual} component={RepaymentSchedule} />
+      <Stack.Screen name={ScreenName.PaymentUI} component={PaymentUI} />
     </Stack.Navigator>
   );
 }

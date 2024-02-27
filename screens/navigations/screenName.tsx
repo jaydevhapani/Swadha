@@ -27,4 +27,5 @@ export const ScreenName = {
   CC : 'Citizen Charter',
   AboutUs : 'About Us',
   RepaymentShedual : 'RepaymentShedual',
+  PaymentUI : 'PaymentUI',
 };
